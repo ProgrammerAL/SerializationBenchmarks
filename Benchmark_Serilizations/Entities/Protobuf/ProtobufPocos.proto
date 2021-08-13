@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Benchmark_Serilizations.Entities.Protobuf";
+
+enum MyProtoEnum
+{
+     MyProtoEnum_Unknown = 0;
+     MyProtoEnum_One = 1;
+     MyProtoEnum_Two = 2;
+     MyProtoEnum_Three = 3;
+}
+
+message BasicObject_Protobuf {
+     int32 Id = 1;
+     string Name = 2;
+     MyProtoEnum EnumValue = 3;
+}

@@ -1,0 +1,14 @@
+﻿enum MyBebopEnum
+{
+    Unknown = 0;
+    One = 1;
+    Two = 2;
+    Three = 3;
+}
+
+message BasicObject_Bebop 
+{
+    1 -> int32 Id;
+    2 -> string Name;
+    3 -> MyBebopEnum EnumValue;
+}

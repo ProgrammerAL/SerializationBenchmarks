@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>  
+
+  <ItemGroup>
+    <PackageReference Include="bebop" Version="2.2.6" />
+    <PackageReference Include="bebop-tools" Version="2.2.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
+    <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.13.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.17.3" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.38.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.39.0-pre1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MessagePack" Version="2.3.75" />
+    <PackageReference Include="MessagePack.Annotations" Version="2.3.75" />
+    <PackageReference Include="MessagePackAnalyzer" Version="2.3.75" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Bebop Include="**/*.bop" OutputDir="./Entities/Bebop/" OutputFile="BebopModels.g.cs" Namespace="Benchmark_Serilizations.Entities.Bebop" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Entities\Protobuf\ProtobufPocos.proto" GrpcServices="None" />
+  </ItemGroup>
+  
+</Project>
