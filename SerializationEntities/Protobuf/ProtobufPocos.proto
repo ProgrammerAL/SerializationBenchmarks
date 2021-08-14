@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Benchmark_Serilizations.Entities.Protobuf";
+option csharp_namespace = "SerializationEntities.Protobuf";
 
 enum MyProtoEnum
 {

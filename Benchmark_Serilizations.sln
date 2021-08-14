@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark_Serilizations", "Benchmark_Serilizations\Benchmark_Serilizations.csproj", "{BCDCF372-3A66-4D09-8CAA-6170AC174ECF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationEntities", "SerializationEntities\SerializationEntities.csproj", "{CE4EAFE6-89D5-4F08-86F0-D7E0F5A593AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BCDCF372-3A66-4D09-8CAA-6170AC174ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCDCF372-3A66-4D09-8CAA-6170AC174ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCDCF372-3A66-4D09-8CAA-6170AC174ECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE4EAFE6-89D5-4F08-86F0-D7E0F5A593AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE4EAFE6-89D5-4F08-86F0-D7E0F5A593AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE4EAFE6-89D5-4F08-86F0-D7E0F5A593AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE4EAFE6-89D5-4F08-86F0-D7E0F5A593AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

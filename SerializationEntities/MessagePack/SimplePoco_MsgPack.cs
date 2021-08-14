@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MessagePack;
 
-namespace Benchmark_Serilizations.Entities
+namespace SerializationEntities.MessagePack
 {
-    public enum MyObjectEnum
+    public enum MyMsgPackObjectEnum
     {
         Unknown,
         One,
@@ -14,10 +15,14 @@ namespace Benchmark_Serilizations.Entities
         Three
     }
 
-    public class SimplePoco_JSON
+    [MessagePackObject]
+    public class SimplePoco_MsgPack
     {
+        [Key(0)]
         public int Id { get; set; }
+        [Key(1)]
         public string Name { get; set; }
-        public MyObjectEnum EnumValue { get; set; }
+        [Key(2)]
+        public MyMsgPackObjectEnum EnumValue { get; set; }
     }
 }

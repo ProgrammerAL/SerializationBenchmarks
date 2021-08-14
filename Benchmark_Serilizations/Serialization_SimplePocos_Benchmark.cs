@@ -4,25 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Benchmark_Serilizations.Entities;
-using Benchmark_Serilizations.Entities.Protobuf;
 using BenchmarkDotNet.Attributes;
-using BenchmarkSerilizations.Entities.Bebop;
+using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
+using SerializationEntities.Bebop;
+using SerializationEntities.JSON;
+using SerializationEntities.MessagePack;
+using SerializationEntities.Protobuf;
 
 namespace Benchmark_Serilizations
 {
-    [MemoryDiagnoser]
-    public class SerializationBenchmark
+    public class Serialization_SimplePocos_Benchmark
     {
         private readonly SimplePoco_JSON _simpleJson;
         private readonly SimplePoco_MsgPack _simpleMsgPk;
         private readonly BasicObject_Protobuf _simpleProtobuf;
         private readonly BasicObjectBebop _simpleBebop;
 
-        public SerializationBenchmark()
+        public Serialization_SimplePocos_Benchmark()
         {
             _simpleJson = new SimplePoco_JSON
             { 
@@ -53,7 +54,7 @@ namespace Benchmark_Serilizations
             };
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public string Serialize_SimpleObject_Json_Newtonsoft()
             => JsonConvert.SerializeObject(_simpleJson);
 
