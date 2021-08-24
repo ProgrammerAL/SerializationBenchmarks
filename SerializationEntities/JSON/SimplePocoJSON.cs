@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SerializationEntities.JSON
+namespace ProgrammerAl.Serialization.Entities.JSON
 {
     public enum MyObjectEnum
     {
@@ -14,7 +14,7 @@ namespace SerializationEntities.JSON
         Three
     }
 
-    public class SimplePoco_JSON
+    public class SimplePocoJSON
     {
         public int Id { get; set; }
         public string Name { get; set; }

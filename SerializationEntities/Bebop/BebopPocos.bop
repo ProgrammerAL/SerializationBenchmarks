@@ -6,7 +6,13 @@
     Three = 3;
 }
 
-message BasicObject_Bebop 
+message TinyPocoBebop 
+{
+    1 -> int32 Id;
+    2 -> int32 OtherId;
+}
+
+message SimplePocoBebop 
 {
     1 -> int32 Id;
     2 -> string Name;

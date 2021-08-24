@@ -1,10 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
-  </PropertyGroup>  
+    <AssemblyName>Benchmarks</AssemblyName>
+    <RootNamespace>ProgrammerAl.Serialization.Benchmarks</RootNamespace>
+
+    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>-->
+  </PropertyGroup>
+  <!--<PropertyGroup>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>true</PublishTrimmed>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>-->
 
   <ItemGroup>
     <PackageReference Include="bebop" Version="2.2.6" />

@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "SerializationEntities.Protobuf";
+option csharp_namespace = "ProgrammerAl.Serialization.Entities.Protobuf";
 
 enum MyProtoEnum
 {
@@ -10,7 +10,12 @@ enum MyProtoEnum
      MyProtoEnum_Three = 3;
 }
 
-message BasicObject_Protobuf {
+message TinyPocoProtobuf {
+	int32 Id = 1;
+	int32 OtherId = 2;
+}
+
+message SimplePocoProtobuf {
      int32 Id = 1;
      string Name = 2;
      MyProtoEnum EnumValue = 3;

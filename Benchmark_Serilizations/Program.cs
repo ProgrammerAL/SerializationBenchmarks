@@ -1,29 +1,32 @@
 ﻿using System;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Validators;
 
-namespace Benchmark_Serilizations
+namespace ProgrammerAl.Serialization.Benchmarks
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var runJob = Job.Dry
-                .WithRuntime(CoreRtRuntime.CoreRt50)
-                .WithPlatform(Platform.AnyCpu)
-                .WithJit(Jit.Default);
-            var runConfig = DefaultConfig.Instance;
-            runConfig.AddJob(runJob);
-            runConfig.AddDiagnoser(MemoryDiagnoser.Default);
-            runConfig.AddExporter(MarkdownExporter.Default);
-            runConfig.AddValidator(ExecutionValidator.FailOnError);
+            var runConfig = DefaultConfig.Instance
+                                        .AddDiagnoser(MemoryDiagnoser.Default)
+                                        .AddExporter(MarkdownExporter.Default)
+                                        .AddValidator(ExecutionValidator.FailOnError);
 
-            var summary = BenchmarkRunner.Run<Serialization_SimplePocos_Benchmark>(config: runConfig);
+            _ = BenchmarkRunner.Run<CreateAndSerialize_TinyPocos>(runConfig);
+            _ = BenchmarkRunner.Run<CreateAndSerialize_SimplePocos>(runConfig);
+
+            _ = BenchmarkRunner.Run<Serialize_Once_TinyPocos>(runConfig);
+            _ = BenchmarkRunner.Run<Serialize_Once_SimplePocos>(runConfig);
+
+            _ = BenchmarkRunner.Run<Serialize_Multiple_TinyPocos>(runConfig);
+            _ = BenchmarkRunner.Run<Serialize_Multiple_SimplePocos>(runConfig);
         }
     }
 }

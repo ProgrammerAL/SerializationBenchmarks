@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MessagePack;
 
-namespace SerializationEntities.MessagePack
+namespace ProgrammerAl.Serialization.Entities.MessagePack
 {
     public enum MyMsgPackObjectEnum
     {
@@ -16,7 +16,7 @@ namespace SerializationEntities.MessagePack
     }
 
     [MessagePackObject]
-    public class SimplePoco_MsgPack
+    public class SimplePocoMsgPack
     {
         [Key(0)]
         public int Id { get; set; }

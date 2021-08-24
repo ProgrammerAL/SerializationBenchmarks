@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
+      <AssemblyName>ProgrammerAl.Serialization.Entities</AssemblyName>
+      <RootNamespace>ProgrammerAl.Serialization.Entities</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,7 +28,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Bebop Include="**/*.bop" OutputDir="./Bebop/" OutputFile="BebopModels.g.cs" Namespace="SerializationEntities.Bebop" />
+        <Bebop Include="**/*.bop" OutputDir="./Bebop/" OutputFile="BebopModels.g.cs" Namespace="ProgrammerAl.Serialization.Entities.Bebop" />
         <Protobuf Include="Protobuf\ProtobufPocos.proto" GrpcServices="None" />
     </ItemGroup>
     
