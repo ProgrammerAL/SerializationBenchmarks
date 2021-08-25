@@ -27,6 +27,8 @@ This console project will output information about serialization formats that ar
 
 ## Benchmark Results
 
+The below benchmarks were run on August 24, 2021 with the latest version of each.
+
 ### Hardware
 These were generated from a desktop with the following characteristics:
 ``` ini
@@ -118,9 +120,17 @@ This benchmark creates a new instance of a 'Simple' object and serializes it. Th
 
 ### JSON
 
+JSON is the default serialization protocol used in so many applications. Many of us assume we will serialize to JSON unless we have a good reason to not use it. It will never be the fastest serialization protocol because it is human readable, and thus it's not as compact as the binary protocols on our list. But because it is the default protocol used by many, I wanted it on this list for comparison sake.
+
 ### Protobuf
+
+Protobuf is a binary serialization format created and maintained by Google. It is also the serialization format used by GRPC. I personally consider it the default binary format to use when given the choice because it is fast to serialize/deserialize, is consistently maintained by Google, and the byte buffer it generates is small. As you can see from the benchmarks above, it has the best performance-to-size ratio. It's not always the fastest, but it is very fast and usually generates the smallest message. You can read more from Google at https://developers.google.com/protocol-buffers/.
 
 ### MessagePack
 
+Most .NET developers will be familiar with using MessagePack with SignalR. While it's not enabled by default (JSON is the default), there is support out of the box for enabled MessagePack for all messages with SignalR. Of the 3 binary serialization protocols we benchmark, this is the slowest. But the message size is a very close second place, and it is always the clear winner in GC Allocated memory. You can read more about MessagePack at the official website https://msgpack.org/, or the repo for the library used in .NET here https://github.com/neuecc/MessagePack-CSharp.
+
 ### Bebop
+
+The newest protocol on this list. It was created by Rainway, the Video Game streaming company. It's goal is to be the fastest serialization protocol. As you can see from the benchmarks above, it is easily the fastest. However of the 3 binary protocols we are benchmarking, its message size is the largest and it allocates the most amount of memory. You can read more about it on their repo at https://github.com/RainwayApp/bebop.
 
