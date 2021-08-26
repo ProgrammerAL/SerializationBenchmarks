@@ -17,6 +17,7 @@ namespace ProgrammerAl.Serialization.Entities.JSON
     public class SimplePocoJSON
     {
         public int Id { get; set; }
+        public int OtherId { get; set; }
         public string Name { get; set; }
         public MyObjectEnum EnumValue { get; set; }
     }

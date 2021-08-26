@@ -19,10 +19,7 @@ namespace ProgrammerAl.Serialization.Entities.Bebop
             };
 
         public static byte[] GenerateSerializedTiny()
-        {
-            var poco = GenerateTiny();
-            return TinyPocoBebop.Encode(poco);
-        }
+            => GenerateSerializedTiny(otherId: 123);
 
         public static byte[] GenerateSerializedTiny(int otherId)
         {
@@ -31,16 +28,23 @@ namespace ProgrammerAl.Serialization.Entities.Bebop
         }
 
         public static SimplePocoBebop GenerateSimple()
+            => GenerateSimple(otherId: 123);
+
+        public static SimplePocoBebop GenerateSimple(int otherId)
             => new()
             {
                 ID = 123_456,
+                OtherId = otherId,
                 Name = "Snuggles the Destroyer of Worlds",
                 EnumValue = MyBebopEnum.Two
             };
 
         public static byte[] GenerateSerializedSimple()
+            => GenerateSerializedSimple(otherId: 123);
+    
+        public static byte[] GenerateSerializedSimple(int otherId)
         {
-            var poco = GenerateSimple();
+            var poco = GenerateSimple(otherId);
             return SimplePocoBebop.Encode(poco);
         }
     }

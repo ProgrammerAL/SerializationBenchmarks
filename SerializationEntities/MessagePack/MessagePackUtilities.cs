@@ -34,16 +34,23 @@ namespace ProgrammerAl.Serialization.Entities.MessagePack
         }
 
         public static SimplePocoMsgPack GenerateSimple()
+            => GenerateSimple(otherId: 123);
+
+        public static SimplePocoMsgPack GenerateSimple(int otherId)
             => new()
             {
                 Id = 123_456,
+                OtherId = otherId,
                 Name = "Snuggles the Destroyer of Worlds",
                 EnumValue = MyMsgPackObjectEnum.Two
             };
 
         public static byte[] GenerateSerializedSimple()
+            => GenerateSerializedSimple(otherId: 123);
+
+        public static byte[] GenerateSerializedSimple(int otherId)
         {
-            var poco = GenerateSimple();
+            var poco = GenerateSimple(otherId);
             return MessagePackSerializer.Serialize(poco);
         }
     }

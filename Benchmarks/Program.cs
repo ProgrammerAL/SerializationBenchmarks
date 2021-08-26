@@ -31,6 +31,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
             BenchmarkRunner.Run<Serialize_Multiple_SimplePocos>(runConfig);
 
             BenchmarkRunner.Run<CreateAndSerializeAndDeserialize_TinyPocos>(runConfig);
+            BenchmarkRunner.Run<CreateAndSerializeAndDeserialize_SimplePocos>(runConfig);
 
             BenchmarkRunner.Run<Deserialize_Once_TinyPocos>(runConfig);
             BenchmarkRunner.Run<Deserialize_Multiple_TinyPocos>(runConfig);

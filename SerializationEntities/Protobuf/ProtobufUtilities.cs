@@ -33,14 +33,21 @@ namespace ProgrammerAl.Serialization.Entities.Protobuf
         }
 
         public static SimplePocoProtobuf GenerateSimple()
+            => GenerateSimple(otherId: 123);
+
+        public static SimplePocoProtobuf GenerateSimple(int otherId)
             => new()
             {
                 Id = 123_456,
+                OtherId = otherId,
                 Name = "Snuggles the Destroyer of Worlds",
                 EnumValue = MyProtoEnum.Two
             };
 
         public static byte[] GenerateSerializedSimple()
+            => GenerateSerializedSimple(otherId: 123);
+
+        public static byte[] GenerateSerializedSimple(int otherId)
         {
             var poco = GenerateSimple();
             return poco.ToByteArray();

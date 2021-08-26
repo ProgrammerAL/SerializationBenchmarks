@@ -21,8 +21,10 @@ namespace ProgrammerAl.Serialization.Entities.MessagePack
         [Key(0)]
         public int Id { get; set; }
         [Key(1)]
-        public string Name { get; set; }
+        public int OtherId { get; set; }
         [Key(2)]
+        public string Name { get; set; }
+        [Key(3)]
         public MyMsgPackObjectEnum EnumValue { get; set; }
     }
 }

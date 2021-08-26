@@ -17,6 +17,7 @@ message TinyPocoProtobuf {
 
 message SimplePocoProtobuf {
      int32 Id = 1;
-     string Name = 2;
-     MyProtoEnum EnumValue = 3;
+     int32 OtherId = 2;
+     string Name = 3;
+     MyProtoEnum EnumValue = 4;
 }

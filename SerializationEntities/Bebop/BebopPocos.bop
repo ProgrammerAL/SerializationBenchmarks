@@ -15,6 +15,7 @@ message TinyPocoBebop
 message SimplePocoBebop 
 {
     1 -> int32 Id;
-    2 -> string Name;
-    3 -> MyBebopEnum EnumValue;
+    2 -> int32 OtherId;
+    3 -> string Name;
+    4 -> MyBebopEnum EnumValue;
 }
