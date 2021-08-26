@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
@@ -16,19 +17,19 @@ using ProgrammerAl.Serialization.Entities.Protobuf;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
-    public class Serialize_Once_TinyPocos
+    public class Serialize_Once_SimplePocos
     {
-        private readonly TinyPocoJSON _jsonPoco;
-        private readonly TinyPocoMsgPack _msgPackPoco;
-        private readonly TinyPocoProtobuf _protobufPoco;
-        private readonly TinyPocoBebop _bebopPoco;
+        private readonly SimplePocoJSON _jsonPoco;
+        private readonly SimplePocoMsgPack _msgPackPoco;
+        private readonly SimplePocoProtobuf _protobufPoco;
+        private readonly SimplePocoBebop _bebopPoco;
 
-        public Serialize_Once_TinyPocos()
+        public Serialize_Once_SimplePocos()
         {
-            _jsonPoco = JsonUtilities.GenerateTiny();
-            _msgPackPoco = MessagePackUtilities.GenerateTiny();
-            _protobufPoco = ProtobufUtilities.GenerateTiny();
-            _bebopPoco = BebobUtilities.GenerateTiny();
+            _jsonPoco = JsonUtilities.GenerateSimple();
+            _msgPackPoco = MessagePackUtilities.GenerateSimple();
+            _protobufPoco = ProtobufUtilities.GenerateSimple();
+            _bebopPoco = BebobUtilities.GenerateSimple();
         }
 
         [Benchmark]
@@ -49,6 +50,6 @@ namespace ProgrammerAl.Serialization.Benchmarks
 
         [Benchmark]
         public byte[] Serialize_Bebop()
-            => TinyPocoBebop.Encode(_bebopPoco);
+            => _bebopPoco.Encode();
     }
 }

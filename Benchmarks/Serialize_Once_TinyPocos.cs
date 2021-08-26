@@ -16,16 +16,14 @@ using ProgrammerAl.Serialization.Entities.Protobuf;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
-    public class Serialize_Multiple_TinyPocos
+    public class Serialize_Once_TinyPocos
     {
-        private const int LoopCount = 9;
-
         private readonly TinyPocoJSON _jsonPoco;
         private readonly TinyPocoMsgPack _msgPackPoco;
         private readonly TinyPocoProtobuf _protobufPoco;
         private readonly TinyPocoBebop _bebopPoco;
 
-        public Serialize_Multiple_TinyPocos()
+        public Serialize_Once_TinyPocos()
         {
             _jsonPoco = JsonUtilities.GenerateTiny();
             _msgPackPoco = MessagePackUtilities.GenerateTiny();
@@ -35,57 +33,22 @@ namespace ProgrammerAl.Serialization.Benchmarks
 
         [Benchmark]
         public string Serialize_Json_Newtonsoft()
-        {
-            for (int i = 0; i < LoopCount; i++)
-            {
-                _ = JsonConvert.SerializeObject(_jsonPoco);
-            }
-
-            return JsonConvert.SerializeObject(_jsonPoco);
-        }
+            => JsonConvert.SerializeObject(_jsonPoco);
 
         [Benchmark]
         public string Serialize_Json_SystemText()
-        {
-            for (int i = 0; i < LoopCount; i++)
-            {
-                _ = System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
-            }
-
-            return System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
-        }
+            => System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
 
         [Benchmark]
         public byte[] Serialize_Protobuf()
-        {
-            for (int i = 0; i < LoopCount; i++)
-            {
-                _ = _protobufPoco.ToByteArray();
-            }
-
-            return _protobufPoco.ToByteArray();
-        }
+            => _protobufPoco.ToByteArray();
 
         [Benchmark]
         public byte[] Serialize_MessagePack()
-        {
-            for (int i = 0; i < LoopCount; i++)
-            {
-                _ = MessagePackSerializer.Serialize(_msgPackPoco);
-            }
-
-            return MessagePackSerializer.Serialize(_msgPackPoco);
-        }
+            => MessagePackSerializer.Serialize(_msgPackPoco);
 
         [Benchmark]
         public byte[] Serialize_Bebop()
-        {
-            for (int i = 0; i < LoopCount; i++)
-            {
-                _ = TinyPocoBebop.Encode(_bebopPoco);
-            }
-
-            return TinyPocoBebop.Encode(_bebopPoco);
-        }
+            => _bebopPoco.Encode();
     }
 }

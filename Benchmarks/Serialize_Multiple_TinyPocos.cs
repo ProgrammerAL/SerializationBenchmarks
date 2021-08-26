@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
@@ -17,21 +16,21 @@ using ProgrammerAl.Serialization.Entities.Protobuf;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
-    public class Serialize_Multiple_SimplePocos
+    public class Serialize_Multiple_TinyPocos
     {
         private const int LoopCount = 9;
-        
-        private readonly SimplePocoJSON _jsonPoco;
-        private readonly SimplePocoMsgPack _msgPackPoco;
-        private readonly SimplePocoProtobuf _protobufPoco;
-        private readonly SimplePocoBebop _bebopPoco;
 
-        public Serialize_Multiple_SimplePocos()
+        private readonly TinyPocoJSON _jsonPoco;
+        private readonly TinyPocoMsgPack _msgPackPoco;
+        private readonly TinyPocoProtobuf _protobufPoco;
+        private readonly TinyPocoBebop _bebopPoco;
+
+        public Serialize_Multiple_TinyPocos()
         {
-            _jsonPoco = JsonUtilities.GenerateSimple();
-            _msgPackPoco = MessagePackUtilities.GenerateSimple();
-            _protobufPoco = ProtobufUtilities.GenerateSimple();
-            _bebopPoco = BebobUtilities.GenerateSimple();
+            _jsonPoco = JsonUtilities.GenerateTiny();
+            _msgPackPoco = MessagePackUtilities.GenerateTiny();
+            _protobufPoco = ProtobufUtilities.GenerateTiny();
+            _bebopPoco = BebobUtilities.GenerateTiny();
         }
 
         [Benchmark]
@@ -77,16 +76,16 @@ namespace ProgrammerAl.Serialization.Benchmarks
 
             return MessagePackSerializer.Serialize(_msgPackPoco);
         }
-        
+
         [Benchmark]
         public byte[] Serialize_Bebop()
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _ = SimplePocoBebop.Encode(_bebopPoco);
+                _bebopPoco.Encode();
             }
 
-            return SimplePocoBebop.Encode(_bebopPoco);
+            return _bebopPoco.Encode();
         }
     }
 }

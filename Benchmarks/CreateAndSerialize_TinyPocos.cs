@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Jobs;
+
 using Google.Protobuf;
+
 using MessagePack;
+
 using Newtonsoft.Json;
+
 using ProgrammerAl.Serialization.Entities.Bebop;
 using ProgrammerAl.Serialization.Entities.JSON;
 using ProgrammerAl.Serialization.Entities.MessagePack;
@@ -17,41 +20,41 @@ using ProgrammerAl.Serialization.Entities.Protobuf;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
-    public class CreateAndSerialize_SimplePocos
+    public class CreateAndSerialize_TinyPocos
     {
         [Benchmark]
         public string Serialize_Json_Newtonsoft()
         {
-            var poco = JsonUtilities.GenerateSimple();
+            var poco = JsonUtilities.GenerateTiny();
             return JsonConvert.SerializeObject(poco);
         }
 
         [Benchmark]
         public string Serialize_Json_SystemText()
         {
-            var poco = JsonUtilities.GenerateSimple();
+            var poco = JsonUtilities.GenerateTiny();
             return System.Text.Json.JsonSerializer.Serialize(poco);
         }
 
         [Benchmark]
         public byte[] Serialize_Protobuf()
         {
-            var poco = ProtobufUtilities.GenerateSimple();
+            var poco = ProtobufUtilities.GenerateTiny();
             return poco.ToByteArray();
         }
 
         [Benchmark]
         public byte[] Serialize_MessagePack()
         {
-            var poco = MessagePackUtilities.GenerateSimple();
+            var poco = MessagePackUtilities.GenerateTiny();
             return MessagePackSerializer.Serialize(poco);
         }
 
         [Benchmark]
         public byte[] Serialize_Bebop()
         {
-            var poco = BebobUtilities.GenerateSimple();
-            return SimplePocoBebop.Encode(poco);
+            var poco = BebobUtilities.GenerateTiny();
+            return poco.Encode();
         }
     }
 }
