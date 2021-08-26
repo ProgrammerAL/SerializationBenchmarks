@@ -20,41 +20,46 @@ using ProgrammerAl.Serialization.Entities.Protobuf;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
-    public class CreateAndSerialize_TinyPocos
+    public class CreateAndSerializeAndDeserialize_TinyPocos
     {
         [Benchmark]
-        public string NewtonsoftJson()
+        public TinyPocoJSON NewtonsoftJson()
         {
             var poco = JsonUtilities.GenerateTiny();
-            return JsonConvert.SerializeObject(poco);
+            var serialized = JsonConvert.SerializeObject(poco);
+            return JsonConvert.DeserializeObject<TinyPocoJSON>(serialized)!;
         }
 
         [Benchmark]
-        public string SystemTextJson()
+        public TinyPocoJSON SystemTextJson()
         {
             var poco = JsonUtilities.GenerateTiny();
-            return System.Text.Json.JsonSerializer.Serialize(poco);
+            var serialized = System.Text.Json.JsonSerializer.Serialize(poco);
+            return System.Text.Json.JsonSerializer.Deserialize<TinyPocoJSON>(serialized)!;
         }
 
         [Benchmark]
-        public byte[] Protobuf()
+        public TinyPocoProtobuf Protobuf()
         {
             var poco = ProtobufUtilities.GenerateTiny();
-            return poco.ToByteArray();
+            var serialized = poco.ToByteArray();
+            return TinyPocoProtobuf.Parser.ParseFrom(serialized);
         }
 
         [Benchmark]
-        public byte[] MessagePack()
+        public TinyPocoMsgPack MessagePack()
         {
             var poco = MessagePackUtilities.GenerateTiny();
-            return MessagePackSerializer.Serialize(poco);
+            var serialized = MessagePackSerializer.Serialize(poco);
+            return MessagePackSerializer.Deserialize<TinyPocoMsgPack>(serialized);
         }
 
         [Benchmark]
-        public byte[] Bebop()
+        public TinyPocoBebop Bebop()
         {
             var poco = BebobUtilities.GenerateTiny();
-            return poco.Encode();
+            var serialized = poco.Encode();
+            return TinyPocoBebop.Decode(serialized);
         }
     }
 }

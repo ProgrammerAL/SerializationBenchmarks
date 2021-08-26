@@ -34,7 +34,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public string Serialize_Json_Newtonsoft()
+        public string NewtonsoftJson()
         {
             for (int i = 0; i < LoopCount; i++)
             {
@@ -45,7 +45,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public string Serialize_Json_SystemText()
+        public string SystemTextJson()
         {
             for (int i = 0; i < LoopCount; i++)
             {
@@ -56,7 +56,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public byte[] Serialize_Protobuf()
+        public byte[] Protobuf()
         {
             for (int i = 0; i < LoopCount; i++)
             {
@@ -67,7 +67,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public byte[] Serialize_MessagePack()
+        public byte[] MessagePack()
         {
             for (int i = 0; i < LoopCount; i++)
             {
@@ -78,7 +78,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public byte[] Serialize_Bebop()
+        public byte[] Bebop()
         {
             for (int i = 0; i < LoopCount; i++)
             {

@@ -11,15 +11,24 @@ namespace ProgrammerAl.Serialization.Entities.Protobuf
     public static class ProtobufUtilities
     {
         public static TinyPocoProtobuf GenerateTiny()
+            => GenerateTiny(otherId: 123);
+
+        public static TinyPocoProtobuf GenerateTiny(int otherId)
             => new()
             {
                 Id = 123_456,
-                OtherId = 123
+                OtherId = otherId
             };
 
         public static byte[] GenerateSerializedTiny()
         {
             var poco = GenerateTiny();
+            return poco.ToByteArray();
+        }
+
+        public static byte[] GenerateSerializedTiny(int otherId)
+        {
+            var poco = GenerateTiny(otherId);
             return poco.ToByteArray();
         }
 

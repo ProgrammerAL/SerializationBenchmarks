@@ -11,15 +11,25 @@ namespace ProgrammerAl.Serialization.Entities.MessagePack
     public static class MessagePackUtilities
     {
         public static TinyPocoMsgPack GenerateTiny()
+            => GenerateTiny(otherId: 123);
+
+        public static TinyPocoMsgPack GenerateTiny(int otherId)
             => new()
             {
                 Id = 123_456,
-                OtherId = 123
+                OtherId = otherId
             };
+
 
         public static byte[] GenerateSerializedTiny()
         {
             var poco = GenerateTiny();
+            return MessagePackSerializer.Serialize(poco);
+        }
+
+        public static byte[] GenerateSerializedTiny(int otherId)
+        {
+            var poco = GenerateTiny(otherId);
             return MessagePackSerializer.Serialize(poco);
         }
 

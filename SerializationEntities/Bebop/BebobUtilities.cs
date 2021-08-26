@@ -9,15 +9,24 @@ namespace ProgrammerAl.Serialization.Entities.Bebop
     public static class BebobUtilities
     {
         public static TinyPocoBebop GenerateTiny()
+            => GenerateTiny(otherId: 123);
+
+        public static TinyPocoBebop GenerateTiny(int otherId)
             => new()
             {
                 ID = 123_456,
-                OtherId = 123
+                OtherId = otherId
             };
 
         public static byte[] GenerateSerializedTiny()
         {
             var poco = GenerateTiny();
+            return TinyPocoBebop.Encode(poco);
+        }
+
+        public static byte[] GenerateSerializedTiny(int otherId)
+        {
+            var poco = GenerateTiny(otherId);
             return TinyPocoBebop.Encode(poco);
         }
 

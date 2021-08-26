@@ -10,11 +10,15 @@ namespace ProgrammerAl.Serialization.Entities.JSON
     public static class JsonUtilities
     {
         public static TinyPocoJSON GenerateTiny()
+            => GenerateTiny(otherId: 123);
+
+        public static TinyPocoJSON GenerateTiny(int otherId)
             => new()
             {
                 Id = 123_456,
-                OtherId = 123
+                OtherId = otherId
             };
+
 
         public static string GenerateSerializedTiny()
         {
@@ -22,6 +26,12 @@ namespace ProgrammerAl.Serialization.Entities.JSON
             return JsonConvert.SerializeObject(poco);
         }
 
+        public static string GenerateSerializedTiny(int otherId)
+        {
+            var poco = GenerateTiny(otherId);
+            return JsonConvert.SerializeObject(poco);
+        }
+        
         public static SimplePocoJSON GenerateSimple()
             => new()
             {

@@ -32,23 +32,23 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public string Serialize_Json_Newtonsoft()
+        public string NewtonsoftJson()
             => JsonConvert.SerializeObject(_jsonPoco);
 
         [Benchmark]
-        public string Serialize_Json_SystemText()
+        public string SystemTextJson()
             => System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
 
         [Benchmark]
-        public byte[] Serialize_Protobuf()
+        public byte[] Protobuf()
             => _protobufPoco.ToByteArray();
 
         [Benchmark]
-        public byte[] Serialize_MessagePack()
+        public byte[] MessagePack()
             => MessagePackSerializer.Serialize(_msgPackPoco);
 
         [Benchmark]
-        public byte[] Serialize_Bebop()
+        public byte[] Bebop()
             => _bebopPoco.Encode();
     }
 }

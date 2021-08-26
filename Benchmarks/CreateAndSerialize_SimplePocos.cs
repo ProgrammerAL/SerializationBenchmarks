@@ -20,35 +20,35 @@ namespace ProgrammerAl.Serialization.Benchmarks
     public class CreateAndSerialize_SimplePocos
     {
         [Benchmark]
-        public string Serialize_Json_Newtonsoft()
+        public string NewtonsoftJson()
         {
             var poco = JsonUtilities.GenerateSimple();
             return JsonConvert.SerializeObject(poco);
         }
 
         [Benchmark]
-        public string Serialize_Json_SystemText()
+        public string SystemTextJson()
         {
             var poco = JsonUtilities.GenerateSimple();
             return System.Text.Json.JsonSerializer.Serialize(poco);
         }
 
         [Benchmark]
-        public byte[] Serialize_Protobuf()
+        public byte[] Protobuf()
         {
             var poco = ProtobufUtilities.GenerateSimple();
             return poco.ToByteArray();
         }
 
         [Benchmark]
-        public byte[] Serialize_MessagePack()
+        public byte[] MessagePack()
         {
             var poco = MessagePackUtilities.GenerateSimple();
             return MessagePackSerializer.Serialize(poco);
         }
 
         [Benchmark]
-        public byte[] Serialize_Bebop()
+        public byte[] Bebop()
         {
             var poco = BebobUtilities.GenerateSimple();
             return poco.Encode();
