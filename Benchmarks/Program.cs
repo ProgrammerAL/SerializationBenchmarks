@@ -16,8 +16,11 @@ namespace ProgrammerAl.Serialization.Benchmarks
     {
         static void Main(string[] args)
         {
+            var memoryDiagnoserConfig = new MemoryDiagnoserConfig(displayGenColumns: false);
+            var memoryDiagnoser = new MemoryDiagnoser(memoryDiagnoserConfig);
+
             var runConfig = DefaultConfig.Instance
-                                        .AddDiagnoser(MemoryDiagnoser.Default)
+                                        .AddDiagnoser(memoryDiagnoser)
                                         .AddExporter(MarkdownExporter.Default)
                                         .AddValidator(ExecutionValidator.FailOnError);
 

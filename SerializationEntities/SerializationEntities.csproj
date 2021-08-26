@@ -13,11 +13,11 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
-        <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.13.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+        <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.13.1" />
         <PackageReference Include="Google.Protobuf" Version="3.17.3" />
-        <PackageReference Include="Grpc.Net.Client" Version="2.38.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.39.0-pre1">
+        <PackageReference Include="Grpc.Net.Client" Version="2.39.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.39.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
