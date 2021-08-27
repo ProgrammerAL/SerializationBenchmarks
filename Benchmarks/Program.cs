@@ -21,7 +21,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
 
             var runConfig = DefaultConfig.Instance
                                         .AddDiagnoser(memoryDiagnoser)
-                                        .AddExporter(MarkdownExporter.Default)
+                                        .AddExporter(MarkdownExporter.GitHub)
                                         .AddValidator(ExecutionValidator.FailOnError);
 
             BenchmarkRunner.Run<CreateAndSerialize_TinyPocos>(runConfig);
