@@ -55,11 +55,19 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public SimplePocoBebopMessage Bebop()
+        public SimplePocoBebopMessage BebopMessage()
         {
             var poco = BebobUtilities.GenerateSimpleMessage();
             var serialized = poco.Encode();
             return SimplePocoBebopMessage.Decode(serialized);
+        }
+
+        [Benchmark]
+        public SimplePocoBebopStruct BebopStruct()
+        {
+            var poco = BebobUtilities.GenerateSimpleStruct();
+            var serialized = poco.Encode();
+            return SimplePocoBebopStruct.Decode(serialized);
         }
     }
 }

@@ -9,6 +9,7 @@ using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
+using ProgrammerAl.Serialization.Entities;
 using ProgrammerAl.Serialization.Entities.Bebop;
 using ProgrammerAl.Serialization.Entities.JSON;
 using ProgrammerAl.Serialization.Entities.MessagePack;
@@ -18,38 +19,31 @@ namespace ProgrammerAl.Serialization.Benchmarks
 {
     public class Deserialize_Once_ComplexPocos
     {
-        private readonly string _jsonPoco;
-        private readonly byte[] _msgPackPoco;
-        private readonly byte[] _protobufPoco;
-        private readonly byte[] _bebopPoco;
-
-        public Deserialize_Once_ComplexPocos()
-        {
-            _jsonPoco = JsonUtilities.GenerateSerializedComplex();
-            _msgPackPoco = MessagePackUtilities.GenerateSerializedComplex();
-            _protobufPoco = ProtobufUtilities.GenerateSerializedComplex();
-            _bebopPoco = BebobUtilities.GenerateSerializedComplexMessage();
-        }
+        private readonly EntityInstances _instances = new();
 
         [Benchmark]
         public ComplexPocoJSON? NewtonsoftJson()
-            => JsonConvert.DeserializeObject<ComplexPocoJSON>(_jsonPoco);
+            => JsonConvert.DeserializeObject<ComplexPocoJSON>(_instances.SerializedComplexJson);
 
         [Benchmark]
         public ComplexPocoJSON? SystemTextJson()
-            => System.Text.Json.JsonSerializer.Deserialize<ComplexPocoJSON>(_jsonPoco);
+            => System.Text.Json.JsonSerializer.Deserialize<ComplexPocoJSON>(_instances.SerializedComplexJson);
 
         [Benchmark]
         public ComplexPocoProtobuf Protobuf()
-            => ComplexPocoProtobuf.Parser.ParseFrom(_protobufPoco);
+            => ComplexPocoProtobuf.Parser.ParseFrom(_instances.SerializedComplexProtobuf);
 
         [Benchmark]
         public ComplexPocoMsgPack MessagePack()
-            => MessagePackSerializer.Deserialize<ComplexPocoMsgPack>(_msgPackPoco);
+            => MessagePackSerializer.Deserialize<ComplexPocoMsgPack>(_instances.SerializedComplexMsgPack);
 
 
         [Benchmark]
-        public ComplexPocoBebopMessage Bebop()
-            => ComplexPocoBebopMessage.Decode(_bebopPoco);
+        public ComplexPocoBebopMessage BebopMessage()
+            => ComplexPocoBebopMessage.Decode(_instances.SerializedComplexBebopMessage);
+
+        [Benchmark]
+        public ComplexPocoBebopStruct BebopStruct()
+            => ComplexPocoBebopStruct.Decode(_instances.SerializedComplexBebopStruct);
     }
 }

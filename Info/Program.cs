@@ -23,7 +23,8 @@ namespace Info
             _ = tinyTable.AddRow("JSON", JsonUtilities.GenerateSerializedTiny().Length);
             _ = tinyTable.AddRow("Protobuf", ProtobufUtilities.GenerateSerializedTiny().Length);
             _ = tinyTable.AddRow("MessagePack", MessagePackUtilities.GenerateSerializedTiny().Length);
-            _ = tinyTable.AddRow("Bebop", BebobUtilities.GenerateSerializedTinyMessage().Length);
+            _ = tinyTable.AddRow("Bebop Message", BebobUtilities.GenerateSerializedTinyMessage().Length);
+            _ = tinyTable.AddRow("Bebop Struct", BebobUtilities.GenerateSerializedTinyStruct().Length);
 
             tinyTable.Write(Format.MarkDown);
 
@@ -33,7 +34,8 @@ namespace Info
             _ = simpleTable.AddRow("JSON", JsonUtilities.GenerateSerializedSimple().Length);
             _ = simpleTable.AddRow("Protobuf", ProtobufUtilities.GenerateSerializedSimple().Length);
             _ = simpleTable.AddRow("MessagePack", MessagePackUtilities.GenerateSerializedSimple().Length);
-            _ = simpleTable.AddRow("Bebop", BebobUtilities.GenerateSerializedSimpleMessage().Length);
+            _ = simpleTable.AddRow("Bebop Message", BebobUtilities.GenerateSerializedSimpleMessage().Length);
+            _ = simpleTable.AddRow("Bebop Struct", BebobUtilities.GenerateSerializedSimpleStruct().Length);
 
             simpleTable.Write(Format.MarkDown);
 
@@ -43,7 +45,8 @@ namespace Info
             _ = complexTable.AddRow("JSON", JsonUtilities.GenerateSerializedComplex().Length);
             _ = complexTable.AddRow("Protobuf", ProtobufUtilities.GenerateSerializedComplex().Length);
             _ = complexTable.AddRow("MessagePack", MessagePackUtilities.GenerateSerializedComplex().Length);
-            _ = complexTable.AddRow("Bebop", BebobUtilities.GenerateSerializedComplexMessage().Length);
+            _ = complexTable.AddRow("Bebop Message", BebobUtilities.GenerateSerializedComplexMessage().Length);
+            _ = complexTable.AddRow("Bebop Struct", BebobUtilities.GenerateSerializedComplexStruct().Length);
 
             complexTable.Write(Format.MarkDown);
         }

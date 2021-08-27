@@ -9,46 +9,36 @@ using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
-using ProgrammerAl.Serialization.Entities.Bebop;
-using ProgrammerAl.Serialization.Entities.JSON;
-using ProgrammerAl.Serialization.Entities.MessagePack;
-using ProgrammerAl.Serialization.Entities.Protobuf;
+using ProgrammerAl.Serialization.Entities;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
     public class Serialize_Once_ComplexPocos
     {
-        private readonly ComplexPocoJSON _jsonPoco;
-        private readonly ComplexPocoMsgPack _msgPackPoco;
-        private readonly ComplexPocoProtobuf _protobufPoco;
-        private readonly ComplexPocoBebopMessage _bebopPoco;
-
-        public Serialize_Once_ComplexPocos()
-        {
-            _jsonPoco = JsonUtilities.GenerateComplex();
-            _msgPackPoco = MessagePackUtilities.GenerateComplex();
-            _protobufPoco = ProtobufUtilities.GenerateComplex();
-            _bebopPoco = BebobUtilities.GenerateComplexMessage();
-        }
+        private readonly EntityInstances _instances = new();
 
         [Benchmark]
         public string NewtonsoftJson()
-            => JsonConvert.SerializeObject(_jsonPoco);
+            => JsonConvert.SerializeObject(_instances.ComplexJson);
 
         [Benchmark]
         public string SystemTextJson()
-            => System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
+            => System.Text.Json.JsonSerializer.Serialize(_instances.ComplexJson);
 
         [Benchmark]
         public byte[] Protobuf()
-            => _protobufPoco.ToByteArray();
+            => _instances.ComplexProtobuf.ToByteArray();
 
         [Benchmark]
         public byte[] MessagePack()
-            => MessagePackSerializer.Serialize(_msgPackPoco);
+            => MessagePackSerializer.Serialize(_instances.ComplexMsgPack);
 
         [Benchmark]
-        public byte[] Bebop()
-            => _bebopPoco.Encode();
+        public byte[] BebopMessage()
+            => _instances.ComplexBebopMessage.Encode();
+
+        [Benchmark]
+        public byte[] BebopStruct()
+            => _instances.ComplexBebopStruct.Encode();
     }
 }

@@ -51,9 +51,16 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public byte[] Bebop()
+        public byte[] Bebopmessage()
         {
             var poco = BebobUtilities.GenerateComplexMessage();
+            return poco.Encode();
+        }
+
+        [Benchmark]
+        public byte[] BebopStruct()
+        {
+            var poco = BebobUtilities.GenerateComplexStruct();
             return poco.Encode();
         }
     }

@@ -9,46 +9,36 @@ using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
-using ProgrammerAl.Serialization.Entities.Bebop;
-using ProgrammerAl.Serialization.Entities.JSON;
-using ProgrammerAl.Serialization.Entities.MessagePack;
-using ProgrammerAl.Serialization.Entities.Protobuf;
+using ProgrammerAl.Serialization.Entities;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
     public class Serialize_Once_TinyPocos
     {
-        private readonly TinyPocoJSON _jsonPoco;
-        private readonly TinyPocoMsgPack _msgPackPoco;
-        private readonly TinyPocoProtobuf _protobufPoco;
-        private readonly TinyPocoBebopMessage _bebopPoco;
-
-        public Serialize_Once_TinyPocos()
-        {
-            _jsonPoco = JsonUtilities.GenerateTiny();
-            _msgPackPoco = MessagePackUtilities.GenerateTiny();
-            _protobufPoco = ProtobufUtilities.GenerateTiny();
-            _bebopPoco = BebobUtilities.GenerateTinyMessage();
-        }
+        private readonly EntityInstances _instances = new();
 
         [Benchmark]
         public string NewtonsoftJson()
-            => JsonConvert.SerializeObject(_jsonPoco);
+            => JsonConvert.SerializeObject(_instances.TinyJson);
 
         [Benchmark]
         public string SystemTextJson()
-            => System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
+            => System.Text.Json.JsonSerializer.Serialize(_instances.TinyJson);
 
         [Benchmark]
         public byte[] Protobuf()
-            => _protobufPoco.ToByteArray();
+            => _instances.TinyProtobuf.ToByteArray();
 
         [Benchmark]
         public byte[] MessagePack()
-            => MessagePackSerializer.Serialize(_msgPackPoco);
+            => MessagePackSerializer.Serialize(_instances.TinyMsgPack);
 
         [Benchmark]
-        public byte[] Bebop()
-            => _bebopPoco.Encode();
+        public byte[] BebopMessage()
+            => _instances.TinyBebopMessage.Encode();
+
+        [Benchmark]
+        public byte[] BebopStruct()
+            => _instances.TinyBebopStruct.Encode();
     }
 }

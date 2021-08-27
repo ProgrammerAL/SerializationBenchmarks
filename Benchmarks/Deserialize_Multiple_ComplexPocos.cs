@@ -26,7 +26,8 @@ namespace ProgrammerAl.Serialization.Benchmarks
         private readonly ImmutableArray<string> _jsonPocos;
         private readonly ImmutableArray<byte[]> _msgPackPocos;
         private readonly ImmutableArray<byte[]> _protobufPocos;
-        private readonly ImmutableArray<byte[]> _bebopPocos;
+        private readonly ImmutableArray<byte[]> _bebopMessagePocos;
+        private readonly ImmutableArray<byte[]> _bebopStructPocos;
 
         private const int EntitiesToTestCount = 10;
         private const int LoopCount = 9;
@@ -37,7 +38,8 @@ namespace ProgrammerAl.Serialization.Benchmarks
             _jsonPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => JsonUtilities.GenerateSerializedComplex(x)).ToImmutableArray();
             _msgPackPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => MessagePackUtilities.GenerateSerializedComplex(x)).ToImmutableArray();
             _protobufPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => ProtobufUtilities.GenerateSerializedComplex(x)).ToImmutableArray();
-            _bebopPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => BebobUtilities.GenerateSerializedComplexMessage(x)).ToImmutableArray();
+            _bebopMessagePocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => BebobUtilities.GenerateSerializedComplexMessage(x)).ToImmutableArray();
+            _bebopStructPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => BebobUtilities.GenerateSerializedComplexStruct(x)).ToImmutableArray();
         }
 
         [Benchmark]
@@ -89,15 +91,27 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public ComplexPocoBebopMessage Bebop()
+        public ComplexPocoBebopMessage BebopMessage()
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                var serializedPoco = _bebopPocos[i];
+                var serializedPoco = _bebopMessagePocos[i];
                 _ = ComplexPocoBebopMessage.Decode(serializedPoco);
             }
 
-            return ComplexPocoBebopMessage.Decode(_bebopPocos[LastLoopIndex]);
+            return ComplexPocoBebopMessage.Decode(_bebopMessagePocos[LastLoopIndex]);
+        }
+
+        [Benchmark]
+        public ComplexPocoBebopStruct BebopStruct()
+        {
+            for (int i = 0; i < LoopCount; i++)
+            {
+                var serializedPoco = _bebopStructPocos[i];
+                _ = ComplexPocoBebopStruct.Decode(serializedPoco);
+            }
+
+            return ComplexPocoBebopStruct.Decode(_bebopStructPocos[LastLoopIndex]);
         }
     }
 }

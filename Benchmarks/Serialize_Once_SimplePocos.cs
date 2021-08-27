@@ -10,46 +10,36 @@ using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
-using ProgrammerAl.Serialization.Entities.Bebop;
-using ProgrammerAl.Serialization.Entities.JSON;
-using ProgrammerAl.Serialization.Entities.MessagePack;
-using ProgrammerAl.Serialization.Entities.Protobuf;
+using ProgrammerAl.Serialization.Entities;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
     public class Serialize_Once_SimplePocos
     {
-        private readonly SimplePocoJSON _jsonPoco;
-        private readonly SimplePocoMsgPack _msgPackPoco;
-        private readonly SimplePocoProtobuf _protobufPoco;
-        private readonly SimplePocoBebopMessage _bebopPoco;
-
-        public Serialize_Once_SimplePocos()
-        {
-            _jsonPoco = JsonUtilities.GenerateSimple();
-            _msgPackPoco = MessagePackUtilities.GenerateSimple();
-            _protobufPoco = ProtobufUtilities.GenerateSimple();
-            _bebopPoco = BebobUtilities.GenerateSimpleMessage();
-        }
+        private readonly EntityInstances _instances = new();
 
         [Benchmark]
         public string NewtonsoftJson()
-            => JsonConvert.SerializeObject(_jsonPoco);
+            => JsonConvert.SerializeObject(_instances.SimpleJson);
 
         [Benchmark]
         public string SystemTextJson()
-            => System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
+            => System.Text.Json.JsonSerializer.Serialize(_instances.SimpleJson);
 
         [Benchmark]
         public byte[] Protobuf()
-            => _protobufPoco.ToByteArray();
+            => _instances.SimpleProtobuf.ToByteArray();
 
         [Benchmark]
         public byte[] MessagePack()
-            => MessagePackSerializer.Serialize(_msgPackPoco);
+            => MessagePackSerializer.Serialize(_instances.SimpleMsgPack);
 
         [Benchmark]
-        public byte[] Bebop()
-            => _bebopPoco.Encode();
+        public byte[] BebopMessage()
+            => _instances.SimpleBebopMessage.Encode();
+
+        [Benchmark]
+        public byte[] BebopStruct()
+            => _instances.SimpleBebopStruct.Encode();
     }
 }

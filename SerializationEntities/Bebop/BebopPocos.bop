@@ -34,6 +34,26 @@ message SimplePocoBebopMessage
     4 -> MyBebopEnum EnumValue;
 }
 
+struct ComplexPocoBebopStruct
+{
+    int32 Id;
+    int32 OtherId;
+    string Name;
+    MyBebopEnum EnumValue;
+    float32 Percentage;
+    float32 Cost;
+    ComplexChildPocoBebopStruct[] Children;
+}
+
+struct ComplexChildPocoBebopStruct
+{
+    guid Id;
+    date Created;
+    date LastEdit;
+    string Name;
+    float32 Percentage;
+}
+
 message ComplexPocoBebopMessage
 {
     1 -> int32 Id;

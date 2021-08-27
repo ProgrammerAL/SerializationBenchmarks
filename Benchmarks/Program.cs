@@ -1,6 +1,7 @@
 ﻿#pragma warning disable IDE0058 // Expression value is never used
 
 using System;
+
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Engines;

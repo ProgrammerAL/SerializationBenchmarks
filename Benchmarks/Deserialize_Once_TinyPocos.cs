@@ -9,6 +9,7 @@ using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
+using ProgrammerAl.Serialization.Entities;
 using ProgrammerAl.Serialization.Entities.Bebop;
 using ProgrammerAl.Serialization.Entities.JSON;
 using ProgrammerAl.Serialization.Entities.MessagePack;
@@ -18,38 +19,30 @@ namespace ProgrammerAl.Serialization.Benchmarks
 {
     public class Deserialize_Once_TinyPocos
     {
-        private readonly string _jsonPoco;
-        private readonly byte[] _msgPackPoco;
-        private readonly byte[] _protobufPoco;
-        private readonly byte[] _bebopPoco;
-
-        public Deserialize_Once_TinyPocos()
-        {
-            _jsonPoco = JsonUtilities.GenerateSerializedTiny();
-            _msgPackPoco = MessagePackUtilities.GenerateSerializedTiny();
-            _protobufPoco = ProtobufUtilities.GenerateSerializedTiny();
-            _bebopPoco = BebobUtilities.GenerateSerializedTinyMessage();
-        }
-
+        private readonly EntityInstances _instances = new();
+        
         [Benchmark]
         public TinyPocoJSON? NewtonsoftJson()
-            => JsonConvert.DeserializeObject<TinyPocoJSON>(_jsonPoco);
+            => JsonConvert.DeserializeObject<TinyPocoJSON>(_instances.SerializedTinyJson);
 
         [Benchmark]
         public TinyPocoJSON? SystemTextJson()
-            => System.Text.Json.JsonSerializer.Deserialize<TinyPocoJSON>(_jsonPoco);
+            => System.Text.Json.JsonSerializer.Deserialize<TinyPocoJSON>(_instances.SerializedTinyJson);
 
         [Benchmark]
         public TinyPocoProtobuf Protobuf()
-            => TinyPocoProtobuf.Parser.ParseFrom(_protobufPoco);
+            => TinyPocoProtobuf.Parser.ParseFrom(_instances.SerializedTinyProtobuf);
 
         [Benchmark]
         public TinyPocoMsgPack MessagePack()
-            => MessagePackSerializer.Deserialize<TinyPocoMsgPack>(_msgPackPoco);
-
+            => MessagePackSerializer.Deserialize<TinyPocoMsgPack>(_instances.SerializedTinyMsgPack);
 
         [Benchmark]
-        public TinyPocoBebopMessage Bebop()
-            => TinyPocoBebopMessage.Decode(_bebopPoco);
+        public TinyPocoBebopMessage BebopMessage()
+            => TinyPocoBebopMessage.Decode(_instances.SerializedTinyBebopMessage);
+
+        [Benchmark]
+        public TinyPocoBebopStruct BebopStruct()
+            => TinyPocoBebopStruct.Decode(_instances.SerializedTinyBebopStruct);
     }
 }

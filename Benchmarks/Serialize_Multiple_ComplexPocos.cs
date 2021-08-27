@@ -9,10 +9,7 @@ using BenchmarkDotNet.Jobs;
 using Google.Protobuf;
 using MessagePack;
 using Newtonsoft.Json;
-using ProgrammerAl.Serialization.Entities.Bebop;
-using ProgrammerAl.Serialization.Entities.JSON;
-using ProgrammerAl.Serialization.Entities.MessagePack;
-using ProgrammerAl.Serialization.Entities.Protobuf;
+using ProgrammerAl.Serialization.Entities;
 
 namespace ProgrammerAl.Serialization.Benchmarks
 {
@@ -20,28 +17,17 @@ namespace ProgrammerAl.Serialization.Benchmarks
     {
         private const int LoopCount = 9;
 
-        private readonly ComplexPocoJSON _jsonPoco;
-        private readonly ComplexPocoMsgPack _msgPackPoco;
-        private readonly ComplexPocoProtobuf _protobufPoco;
-        private readonly ComplexPocoBebopMessage _bebopPoco;
-
-        public Serialize_Multiple_ComplexPocos()
-        {
-            _jsonPoco = JsonUtilities.GenerateComplex();
-            _msgPackPoco = MessagePackUtilities.GenerateComplex();
-            _protobufPoco = ProtobufUtilities.GenerateComplex();
-            _bebopPoco = BebobUtilities.GenerateComplexMessage();
-        }
+        private readonly EntityInstances _instances = new();
 
         [Benchmark]
         public string NewtonsoftJson()
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _ = JsonConvert.SerializeObject(_jsonPoco);
+                _ = JsonConvert.SerializeObject(_instances.ComplexJson);
             }
 
-            return JsonConvert.SerializeObject(_jsonPoco);
+            return JsonConvert.SerializeObject(_instances.ComplexJson);
         }
 
         [Benchmark]
@@ -49,10 +35,10 @@ namespace ProgrammerAl.Serialization.Benchmarks
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _ = System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
+                _ = System.Text.Json.JsonSerializer.Serialize(_instances.ComplexJson);
             }
 
-            return System.Text.Json.JsonSerializer.Serialize(_jsonPoco);
+            return System.Text.Json.JsonSerializer.Serialize(_instances.ComplexJson);
         }
 
         [Benchmark]
@@ -60,10 +46,10 @@ namespace ProgrammerAl.Serialization.Benchmarks
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _ = _protobufPoco.ToByteArray();
+                _ = _instances.ComplexProtobuf.ToByteArray();
             }
 
-            return _protobufPoco.ToByteArray();
+            return _instances.ComplexProtobuf.ToByteArray();
         }
 
         [Benchmark]
@@ -71,21 +57,32 @@ namespace ProgrammerAl.Serialization.Benchmarks
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _ = MessagePackSerializer.Serialize(_msgPackPoco);
+                _ = MessagePackSerializer.Serialize(_instances.ComplexMsgPack);
             }
 
-            return MessagePackSerializer.Serialize(_msgPackPoco);
+            return MessagePackSerializer.Serialize(_instances.ComplexMsgPack);
         }
 
         [Benchmark]
-        public byte[] Bebop()
+        public byte[] BebopMessage()
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _ = _bebopPoco.Encode();
+                _ = _instances.ComplexBebopMessage.Encode();
             }
 
-            return _bebopPoco.Encode();
+            return _instances.ComplexBebopMessage.Encode();
+        }
+
+        [Benchmark]
+        public byte[] BebopStruct()
+        {
+            for (int i = 0; i < LoopCount; i++)
+            {
+                _ = _instances.ComplexBebopStruct.Encode();
+            }
+
+            return _instances.ComplexBebopStruct.Encode();
         }
     }
 }
