@@ -21,14 +21,14 @@ namespace ProgrammerAl.Serialization.Benchmarks
         private readonly ComplexPocoJSON _jsonPoco;
         private readonly ComplexPocoMsgPack _msgPackPoco;
         private readonly ComplexPocoProtobuf _protobufPoco;
-        private readonly ComplexPocoBebop _bebopPoco;
+        private readonly ComplexPocoBebopMessage _bebopPoco;
 
         public Serialize_Once_ComplexPocos()
         {
             _jsonPoco = JsonUtilities.GenerateComplex();
             _msgPackPoco = MessagePackUtilities.GenerateComplex();
             _protobufPoco = ProtobufUtilities.GenerateComplex();
-            _bebopPoco = BebobUtilities.GenerateComplex();
+            _bebopPoco = BebobUtilities.GenerateComplexMessage();
         }
 
         [Benchmark]

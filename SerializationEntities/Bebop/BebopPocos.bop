@@ -6,13 +6,27 @@
     Three = 3;
 }
 
-message TinyPocoBebop 
+struct TinyPocoBebopStruct
+{
+    int32 Id;
+    int32 OtherId;
+}
+
+message TinyPocoBebopMessage
 {
     1 -> int32 Id;
     2 -> int32 OtherId;
 }
 
-message SimplePocoBebop 
+struct SimplePocoBebopStruct
+{
+    int32 Id;
+    int32 OtherId;
+    string Name;
+    MyBebopEnum EnumValue;
+}
+
+message SimplePocoBebopMessage
 {
     1 -> int32 Id;
     2 -> int32 OtherId;
@@ -20,7 +34,7 @@ message SimplePocoBebop
     4 -> MyBebopEnum EnumValue;
 }
 
-message ComplexPocoBebop 
+message ComplexPocoBebopMessage
 {
     1 -> int32 Id;
     2 -> int32 OtherId;
@@ -28,10 +42,10 @@ message ComplexPocoBebop
     4 -> MyBebopEnum EnumValue;
     5 -> float32 Percentage;
     6 -> float32 Cost;
-    7 -> ComplexChildPocoBebop[] Children;
+    7 -> ComplexChildPocoBebopMessage[] Children;
 }
 
-message ComplexChildPocoBebop
+message ComplexChildPocoBebopMessage
 {
     1 -> guid Id;
     2 -> date Created;

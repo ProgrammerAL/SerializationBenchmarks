@@ -53,7 +53,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         [Benchmark]
         public byte[] Bebop()
         {
-            var poco = BebobUtilities.GenerateComplex();
+            var poco = BebobUtilities.GenerateComplexMessage();
             return poco.Encode();
         }
     }

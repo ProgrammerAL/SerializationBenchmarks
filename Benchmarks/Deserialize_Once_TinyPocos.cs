@@ -28,7 +28,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
             _jsonPoco = JsonUtilities.GenerateSerializedTiny();
             _msgPackPoco = MessagePackUtilities.GenerateSerializedTiny();
             _protobufPoco = ProtobufUtilities.GenerateSerializedTiny();
-            _bebopPoco = BebobUtilities.GenerateSerializedTiny();
+            _bebopPoco = BebobUtilities.GenerateSerializedTinyMessage();
         }
 
         [Benchmark]
@@ -49,7 +49,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
 
 
         [Benchmark]
-        public TinyPocoBebop Bebop()
-            => TinyPocoBebop.Decode(_bebopPoco);
+        public TinyPocoBebopMessage Bebop()
+            => TinyPocoBebopMessage.Decode(_bebopPoco);
     }
 }

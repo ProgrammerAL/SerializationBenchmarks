@@ -28,7 +28,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
             _jsonPoco = JsonUtilities.GenerateSerializedComplex();
             _msgPackPoco = MessagePackUtilities.GenerateSerializedComplex();
             _protobufPoco = ProtobufUtilities.GenerateSerializedComplex();
-            _bebopPoco = BebobUtilities.GenerateSerializedComplex();
+            _bebopPoco = BebobUtilities.GenerateSerializedComplexMessage();
         }
 
         [Benchmark]
@@ -49,7 +49,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
 
 
         [Benchmark]
-        public ComplexPocoBebop Bebop()
-            => ComplexPocoBebop.Decode(_bebopPoco);
+        public ComplexPocoBebopMessage Bebop()
+            => ComplexPocoBebopMessage.Decode(_bebopPoco);
     }
 }

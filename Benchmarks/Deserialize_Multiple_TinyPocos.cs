@@ -37,7 +37,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
             _jsonPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => JsonUtilities.GenerateSerializedTiny(x)).ToImmutableArray();
             _msgPackPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => MessagePackUtilities.GenerateSerializedTiny(x)).ToImmutableArray();
             _protobufPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => ProtobufUtilities.GenerateSerializedTiny(x)).ToImmutableArray();
-            _bebopPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => BebobUtilities.GenerateSerializedTiny(x)).ToImmutableArray();
+            _bebopPocos = Enumerable.Range(1, EntitiesToTestCount).Select(x => BebobUtilities.GenerateSerializedTinyMessage(x)).ToImmutableArray();
         }
 
         [Benchmark]
@@ -89,15 +89,15 @@ namespace ProgrammerAl.Serialization.Benchmarks
         }
 
         [Benchmark]
-        public TinyPocoBebop Bebop()
+        public TinyPocoBebopMessage Bebop()
         {
             for (int i = 0; i < LoopCount; i++)
             {
                 var serializedPoco = _bebopPocos[i];
-                _ = TinyPocoBebop.Decode(serializedPoco);
+                _ = TinyPocoBebopMessage.Decode(serializedPoco);
             }
 
-            return TinyPocoBebop.Decode(_bebopPocos[LastLoopIndex]);
+            return TinyPocoBebopMessage.Decode(_bebopPocos[LastLoopIndex]);
         }
     }
 }

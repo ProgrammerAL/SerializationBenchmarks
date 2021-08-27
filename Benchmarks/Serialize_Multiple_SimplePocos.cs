@@ -24,14 +24,14 @@ namespace ProgrammerAl.Serialization.Benchmarks
         private readonly SimplePocoJSON _jsonPoco;
         private readonly SimplePocoMsgPack _msgPackPoco;
         private readonly SimplePocoProtobuf _protobufPoco;
-        private readonly SimplePocoBebop _bebopPoco;
+        private readonly SimplePocoBebopMessage _bebopPoco;
 
         public Serialize_Multiple_SimplePocos()
         {
             _jsonPoco = JsonUtilities.GenerateSimple();
             _msgPackPoco = MessagePackUtilities.GenerateSimple();
             _protobufPoco = ProtobufUtilities.GenerateSimple();
-            _bebopPoco = BebobUtilities.GenerateSimple();
+            _bebopPoco = BebobUtilities.GenerateSimpleMessage();
         }
 
         [Benchmark]

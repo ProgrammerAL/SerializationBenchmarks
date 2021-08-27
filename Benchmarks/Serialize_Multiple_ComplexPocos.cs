@@ -23,14 +23,14 @@ namespace ProgrammerAl.Serialization.Benchmarks
         private readonly ComplexPocoJSON _jsonPoco;
         private readonly ComplexPocoMsgPack _msgPackPoco;
         private readonly ComplexPocoProtobuf _protobufPoco;
-        private readonly ComplexPocoBebop _bebopPoco;
+        private readonly ComplexPocoBebopMessage _bebopPoco;
 
         public Serialize_Multiple_ComplexPocos()
         {
             _jsonPoco = JsonUtilities.GenerateComplex();
             _msgPackPoco = MessagePackUtilities.GenerateComplex();
             _protobufPoco = ProtobufUtilities.GenerateComplex();
-            _bebopPoco = BebobUtilities.GenerateComplex();
+            _bebopPoco = BebobUtilities.GenerateComplexMessage();
         }
 
         [Benchmark]
@@ -82,7 +82,7 @@ namespace ProgrammerAl.Serialization.Benchmarks
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                _bebopPoco.Encode();
+                _ = _bebopPoco.Encode();
             }
 
             return _bebopPoco.Encode();
