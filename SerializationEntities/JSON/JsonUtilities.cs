@@ -39,7 +39,7 @@ namespace ProgrammerAl.Serialization.Entities.JSON
                 Id = 123_456,
                 OtherId = otherId,
                 Name = "Snuggles the Destroyer of Worlds",
-                EnumValue = MySimpleEnum.Two
+                EnumValue = MyJsonEnum.Two
             };
 
         public static string GenerateSerializedSimple()
@@ -60,7 +60,7 @@ namespace ProgrammerAl.Serialization.Entities.JSON
                 Id = 123_456,
                 OtherId = otherId,
                 Name = "Snuggles the Destroyer of Worlds",
-                EnumValue = MyComplexEnum.Three,
+                EnumValue = MyJsonEnum.Three,
                 Cost = 456.78M,
                 Percentage = 0.5,
                 Children = new List<ComplexChildPocoJSON>
