@@ -69,6 +69,25 @@ AMD Ryzen 9 3950X, 1 CPU, 32 logical and 16 physical cores
   DefaultJob : .NET 5.0.9 (5.0.921.35908), X64 RyuJIT
 ```
 
+### Serialized Objects
+
+Tiny Objects Serialized Size:
+| Name        | Size (bytes) |
+|-------------|--------------|
+| JSON        | 27           |
+| Protobuf    | 6            |
+| MessagePack | 7            |
+| Bebop       | 15           |
+
+
+Simple Objects Serialized Size:
+| Name        | Size (bytes) |
+|-------------|--------------|
+| JSON        | 83           |
+| Protobuf    | 42           |
+| MessagePack | 42           |
+| Bebop       | 57           |
+
 ### Serialize POCOs Once Benchmark Results
 
 This is the most basic serialization benchmark. It only measures the performance of the serialization. The purpose is to see the raw speed of a single serialization of the object.
