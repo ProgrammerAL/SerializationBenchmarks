@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,58 @@ namespace ProgrammerAl.Serialization.Entities.Protobuf
         public static byte[] GenerateSerializedSimple(int otherId)
         {
             var poco = GenerateSimple();
+            return poco.ToByteArray();
+        }
+
+        public static ComplexPocoProtobuf GenerateComplex()
+            => GenerateComplex(otherId: 123);
+
+        public static ComplexPocoProtobuf GenerateComplex(int otherId)
+        {
+            var obj = new ComplexPocoProtobuf()
+            {
+                Id = 123_456,
+                OtherId = otherId,
+                Name = "Snuggles the Destroyer of Worlds",
+                EnumValue = MyProtoEnum.Three,
+                Cost = 456.78,
+                Percentage = 0.5,
+            };
+
+            obj.Children.Add(new ComplexChildPocoProtobuf
+            {
+                GuidId = Guid.NewGuid().ToString(),
+                Created = Timestamp.FromDateTime(DateTime.UtcNow.AddDays(-1)),
+                LastEdit = Timestamp.FromDateTime(DateTime.UtcNow),
+                Name = "Child 1",
+                Percentage = 0.1f
+            });
+            obj.Children.Add(new ComplexChildPocoProtobuf
+            {
+                GuidId = Guid.NewGuid().ToString(),
+                Created = Timestamp.FromDateTime(DateTime.UtcNow.AddDays(-1)),
+                LastEdit = Timestamp.FromDateTime(DateTime.UtcNow),
+                Name = "Child 2",
+                Percentage = 0.2f
+            });
+            obj.Children.Add(new ComplexChildPocoProtobuf
+            {
+                GuidId = Guid.NewGuid().ToString(),
+                Created = Timestamp.FromDateTime(DateTime.UtcNow.AddDays(-1)),
+                LastEdit = Timestamp.FromDateTime(DateTime.UtcNow),
+                Name = "Child 3",
+                Percentage = 0.3f
+            });
+
+            return obj;
+        }
+
+        public static byte[] GenerateSerializedComplex()
+            => GenerateSerializedComplex(otherId: 123);
+
+        public static byte[] GenerateSerializedComplex(int otherId)
+        {
+            var poco = GenerateComplex();
             return poco.ToByteArray();
         }
     }

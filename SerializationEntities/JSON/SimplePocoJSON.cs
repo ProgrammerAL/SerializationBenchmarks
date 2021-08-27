@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProgrammerAl.Serialization.Entities.JSON
 {
-    public enum MyObjectEnum
+    public enum MySimpleEnum
     {
         Unknown,
         One,
@@ -19,6 +19,6 @@ namespace ProgrammerAl.Serialization.Entities.JSON
         public int Id { get; set; }
         public int OtherId { get; set; }
         public string Name { get; set; }
-        public MyObjectEnum EnumValue { get; set; }
+        public MySimpleEnum EnumValue { get; set; }
     }
 }

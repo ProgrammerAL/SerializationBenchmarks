@@ -19,3 +19,24 @@ message SimplePocoBebop
     3 -> string Name;
     4 -> MyBebopEnum EnumValue;
 }
+
+message ComplexPocoBebop 
+{
+    1 -> int32 Id;
+    2 -> int32 OtherId;
+    3 -> string Name;
+    4 -> MyBebopEnum EnumValue;
+    5 -> float32 Percentage;
+    6 -> float32 Cost;
+    7 -> ComplexChildPocoBebop[] Children;
+}
+
+message ComplexChildPocoBebop
+{
+    1 -> guid Id;
+    2 -> date Created;
+    3 -> date LastEdit;
+    4 -> string Name;
+    5 -> float32 Percentage;
+}
+

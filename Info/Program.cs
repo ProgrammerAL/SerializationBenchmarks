@@ -27,8 +27,6 @@ namespace Info
 
             tinyTable.Write(Format.MarkDown);
 
-            Console.WriteLine();
-
             var simpleTable = new ConsoleTable("Name", "Size (bytes)");
 
             Console.WriteLine("Simple Objects Serialized Size:");
@@ -38,6 +36,16 @@ namespace Info
             _ = simpleTable.AddRow("Bebop", BebobUtilities.GenerateSerializedSimple().Length);
 
             simpleTable.Write(Format.MarkDown);
+
+            var complexTable = new ConsoleTable("Name", "Size (bytes)");
+
+            Console.WriteLine("Complex Objects Serialized Size:");
+            _ = complexTable.AddRow("JSON", JsonUtilities.GenerateSerializedComplex().Length);
+            _ = complexTable.AddRow("Protobuf", ProtobufUtilities.GenerateSerializedComplex().Length);
+            _ = complexTable.AddRow("MessagePack", MessagePackUtilities.GenerateSerializedComplex().Length);
+            _ = complexTable.AddRow("Bebop", BebobUtilities.GenerateSerializedComplex().Length);
+
+            complexTable.Write(Format.MarkDown);
         }
     }
 }

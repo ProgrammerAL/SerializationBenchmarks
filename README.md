@@ -28,8 +28,9 @@ All of the benchmark results are below, but here's a summary of how each seriali
 
 #### Types of Objects Serialized/Deserialized
 
-- 'Tiny' Objects are objects with 2 integer properties
-- 'Simple' Objects are obejcts with a handful of different properties (integer, integer, string, enum)
+- 'Tiny' objects are objects with 2 integer properties
+- 'Simple' objects are obejcts with a handful of different properties (integer, integer, string, enum)
+- 'Complex' objects are objects with multiple types of properties and a child collection
 
 
 ## C# projects Overview
@@ -79,7 +80,6 @@ Tiny Objects Serialized Size:
 | MessagePack | 7            |
 | Bebop       | 15           |
 
-
 Simple Objects Serialized Size:
 | Name        | Size (bytes) |
 |-------------|--------------|
@@ -88,11 +88,19 @@ Simple Objects Serialized Size:
 | MessagePack | 42           |
 | Bebop       | 57           |
 
-### Serialize POCOs Once Benchmark Results
+Complex Objects Serialized Size:
+| Name        | Size (bytes) |
+|-------------|--------------|
+| JSON        | 83           |
+| Protobuf    | 306          |
+| MessagePack | 279          |
+| Bebop       | 243          |
+
+### Serialize POCOs Once
 
 This is the most basic serialization benchmark. It only measures the performance of the serialization. The purpose is to see the raw speed of a single serialization of the object.
 
-#### Tiny Pocos
+#### Tiny POCOs
 
 |         Method |      Mean |    Error |   StdDev |    Median | Allocated |
 |--------------- |----------:|---------:|---------:|----------:|----------:|
@@ -102,7 +110,7 @@ This is the most basic serialization benchmark. It only measures the performance
 |    MessagePack |  77.48 ns | 0.885 ns | 0.785 ns |  77.43 ns |      32 B |
 |          Bebop |  47.76 ns | 1.005 ns | 1.594 ns |  46.91 ns |     120 B |
 
-####  Simple Pocos
+####  Simple POCOs
 
 This benchmark serializes a 'Simple' object. The purpose is to see the raw speed of a single serialization on a simple object.
 
@@ -114,12 +122,21 @@ This benchmark serializes a 'Simple' object. The purpose is to see the raw speed
 |    MessagePack |   125.5 ns |  1.86 ns |  1.74 ns |   125.7 ns |      72 B |
 |          Bebop |   119.9 ns |  2.44 ns |  4.52 ns |   122.0 ns |     360 B |
 
+#### Complex POCOs
 
-### Serialize POCOs Multiple Times Benchmark Results
+|         Method |       Mean |    Error |   StdDev | Allocated |
+|--------------- |-----------:|---------:|---------:|----------:|
+| NewtonsoftJson | 6,188.1 ns | 27.44 ns | 25.67 ns |   5,312 B |
+| SystemTextJson | 2,949.0 ns | 13.95 ns | 13.05 ns |   1,720 B |
+|       Protobuf |   957.3 ns |  6.67 ns |  5.91 ns |     400 B |
+|    MessagePack |   623.3 ns |  4.00 ns |  3.74 ns |     304 B |
+|          Bebop |   350.2 ns |  2.27 ns |  2.13 ns |   1,264 B |
+
+### Serialize POCOs Multiple Times
 
 This benchmark runs a loop to serializes an object a total of 10 times. The purpose is to see if performance gets better/worse after serializing the same object multiple times.
 
-#### Simple Pocos
+#### Simple POCOs
 
 |         Method |      Mean |     Error |    StdDev | Allocated |
 |--------------- |----------:|----------:|----------:|----------:|
@@ -129,7 +146,7 @@ This benchmark runs a loop to serializes an object a total of 10 times. The purp
 |    MessagePack |  1.303 μs | 0.0096 μs | 0.0090 μs |     720 B |
 |          Bebop |  1.071 μs | 0.0065 μs | 0.0061 μs |   3,600 B |
 
-####  Tiny Pocos
+####  Tiny POCOs
 
 |         Method |       Mean |    Error |   StdDev | Allocated |
 |--------------- |-----------:|---------:|---------:|----------:|
@@ -139,7 +156,17 @@ This benchmark runs a loop to serializes an object a total of 10 times. The purp
 |    MessagePack |   731.3 ns |  9.63 ns |  8.53 ns |     320 B |
 |          Bebop |   438.1 ns |  2.63 ns |  2.46 ns |   1,200 B |
 
-### Deserialize POCOs Once Benchmark Results
+#### Complex POCOs
+
+|         Method |      Mean |     Error |    StdDev | Allocated |
+|--------------- |----------:|----------:|----------:|----------:|
+| NewtonsoftJson | 62.118 μs | 0.2504 μs | 0.2343 μs |     52 KB |
+| SystemTextJson | 29.649 μs | 0.1574 μs | 0.1396 μs |     17 KB |
+|       Protobuf | 10.013 μs | 0.1449 μs | 0.1355 μs |      4 KB |
+|    MessagePack |  6.113 μs | 0.0363 μs | 0.0322 μs |      3 KB |
+|          Bebop |  5.702 μs | 0.0196 μs | 0.0183 μs |     12 KB |
+
+### Deserialize POCOs Once
 
 This is the most basic deserialization benchmark. It only measures the performance of the deserialization. The purpose is to see the raw speed of a single deserialization of the object.
 
@@ -163,7 +190,17 @@ This is the most basic deserialization benchmark. It only measures the performan
 |    MessagePack |   171.56 ns |  1.516 ns | 1.418 ns |     128 B |
 |          Bebop |    60.19 ns |  0.265 ns | 0.221 ns |     136 B |
 
-### Deserialize POCOs Multiple Times Benchmark Results
+#### Complex POCOs
+
+|         Method |       Mean |    Error |   StdDev | Allocated |
+|--------------- |-----------:|---------:|---------:|----------:|
+| NewtonsoftJson | 2,207.5 ns | 12.74 ns | 11.92 ns |   2,864 B |
+| SystemTextJson |   722.3 ns |  6.40 ns |  5.99 ns |     160 B |
+|       Protobuf | 1,133.6 ns |  9.46 ns |  8.39 ns |   1,288 B |
+|    MessagePack | 1,645.4 ns | 14.98 ns | 11.70 ns |     552 B |
+|          Bebop |   236.6 ns |  3.47 ns |  3.25 ns |     592 B |
+
+### Deserialize POCOs Multiple Times
 
 This benchmark runs a loop to deserialize an object a total of 10 times. The purpose is to see if performance gets better/worse after deserializing the same object multiple times.
 
@@ -187,11 +224,21 @@ This benchmark runs a loop to deserialize an object a total of 10 times. The pur
 |    MessagePack |  1,587.0 ns |  19.51 ns |  18.25 ns |      1 KB |
 |          Bebop |    619.4 ns |   3.60 ns |   3.37 ns |      1 KB |
 
-### Create then Serialize Benchmark Results
+#### Complex POCOs
+
+|         Method |      Mean |     Error |    StdDev | Allocated |
+|--------------- |----------:|----------:|----------:|----------:|
+| NewtonsoftJson | 21.603 μs | 0.1334 μs | 0.1248 μs |     28 KB |
+| SystemTextJson |  7.205 μs | 0.0819 μs | 0.0766 μs |      2 KB |
+|       Protobuf | 10.802 μs | 0.0709 μs | 0.0629 μs |     13 KB |
+|    MessagePack | 17.979 μs | 0.1079 μs | 0.1010 μs |      5 KB |
+|          Bebop |  2.412 μs | 0.0114 μs | 0.0101 μs |      6 KB |
+
+### Create then Serialize
 
 This benchmark creates a new instance of an object and then serializes it. The purpose is to see how much memory is used in a more macro sense of creating the object and serializing it.
 
-#### Tiny Pocos
+#### Tiny POCOs
 
 |         Method |      Mean |     Error |   StdDev | Allocated |
 |--------------- |----------:|----------:|---------:|----------:|
@@ -201,9 +248,7 @@ This benchmark creates a new instance of an object and then serializes it. The p
 |    MessagePack |  83.37 ns |  0.651 ns | 0.577 ns |      56 B |
 |          Bebop |  49.11 ns |  0.265 ns | 0.235 ns |     152 B |
 
-#### Simple Pocos
-
-This benchmark creates a new instance of a 'Simple' object and serializes it. The purpose is to see how much memory is used in a more macro sense of creating the object and serializing it.
+#### Simple POCOs
 
 |         Method |       Mean |   Error |  StdDev | Allocated |
 |--------------- |-----------:|--------:|--------:|----------:|
@@ -213,7 +258,17 @@ This benchmark creates a new instance of a 'Simple' object and serializes it. Th
 |    MessagePack |   147.2 ns | 2.62 ns | 2.45 ns |     112 B |
 |          Bebop |   123.5 ns | 0.65 ns | 0.61 ns |     408 B |
 
-### Create then Serialize then Deserialize Benchmark Results
+#### Complex POCOs
+
+|         Method |     Mean |     Error |    StdDev | Allocated |
+|--------------- |---------:|----------:|----------:|----------:|
+| NewtonsoftJson | 7.110 μs | 0.0218 μs | 0.0194 μs |   5,664 B |
+| SystemTextJson | 3.801 μs | 0.0081 μs | 0.0076 μs |   2,072 B |
+|       Protobuf | 2.187 μs | 0.0150 μs | 0.0125 μs |   1,309 B |
+|    MessagePack | 1.348 μs | 0.0034 μs | 0.0032 μs |     656 B |
+|          Bebop | 1.055 μs | 0.0060 μs | 0.0053 μs |   1,648 B |
+
+### Create then Serialize then Deserialize
 
 This benchmark creates a new instance of an object, serializes it, then deserializes it. The purpose is to see how much memory is used in a more macro sense of the full lifespan of the process.
 
@@ -237,6 +292,14 @@ This benchmark creates a new instance of an object, serializes it, then deserial
 |    MessagePack |   351.4 ns |  4.17 ns |  3.90 ns |     240 B |
 |          Bebop |   196.4 ns |  1.01 ns |  0.90 ns |     544 B |
 
+#### Complex POCOs
 
+|         Method |      Mean |     Error |    StdDev | Allocated |
+|--------------- |----------:|----------:|----------:|----------:|
+| NewtonsoftJson | 19.805 μs | 0.1083 μs | 0.1013 μs |     10 KB |
+| SystemTextJson |  8.831 μs | 0.0387 μs | 0.0362 μs |      3 KB |
+|       Protobuf |  3.452 μs | 0.0174 μs | 0.0163 μs |      3 KB |
+|    MessagePack |  3.410 μs | 0.0078 μs | 0.0073 μs |      1 KB |
+|          Bebop |  1.340 μs | 0.0050 μs | 0.0047 μs |      2 KB |
 
 

@@ -1,5 +1,7 @@
 ﻿syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 option csharp_namespace = "ProgrammerAl.Serialization.Entities.Protobuf";
 
 enum MyProtoEnum
@@ -20,4 +22,22 @@ message SimplePocoProtobuf {
      int32 OtherId = 2;
      string Name = 3;
      MyProtoEnum EnumValue = 4;
+}
+
+message ComplexPocoProtobuf {
+	int32 Id = 1;
+	int32 OtherId = 2;
+	string Name = 3;
+	MyProtoEnum EnumValue = 4;
+    double Percentage = 5;
+    double Cost = 6;
+	repeated ComplexChildPocoProtobuf Children = 7;
+}
+
+message ComplexChildPocoProtobuf {
+	string GuidId = 1;
+	google.protobuf.Timestamp Created = 2;
+	google.protobuf.Timestamp LastEdit = 3;
+	string Name = 4;
+	float Percentage = 6;
 }
