@@ -18,12 +18,26 @@ There are 2 projects that generate performance data:
 
 ## Results TL;DR
 
-All of the benchmark results are below, but here's a summary of how each serialization protocol performed.
+All of the benchmark results are below, but here's a summary of how each serialization protocol performed. Remember, there are tradeoffs to every approach.
 
 - JSON
+  - We test with both the NewtonSoft.JSON and System.Text.JSON libraries
+  - The slowest to serialize and deserialize. Always generates the largest message size.
+  - But remember, it's not meant to be the most performant. It's not a binary serialization. It is human readable, which is its biggest strength.
+  - JSON is included in this benchmark mostly for comparison.
 - Protobuf
+  - When serializing, this is very close to being the fastest and can make the smallest serialized entity size. However, as the backing entity class gets bigger, the serialized output becomes larger than the others.
+  - When deserializing, it becomes the slowest of the binary serializers, and allocates the most amount of memory which can slow down the system over time with GC pauses.
 - MessagePack
+  - The most well rounded of the protocols.
+  - A very close 3rd in serialization performance, a clear 2nd in deserialization performance.
+  - Allocates the least amount of memory when serializing and deserializing.
+  - Similar to Protobuf, MessagePack's serialized messages are very small when the entity class is small, but grow much larger as the entity gets bigger. However it's not nearly as bad as Protobuf.
 - Bebop
+  - We test with both Message and Struct entity types.
+  - The fastest in every benchmark, serialization and deserialization.
+  - Serializing allocates a lot of memory, but deserialization does not have this problem.
+  - Struct entity types generate messages almost as small as Protobuf and MessagePack. As the entity types grow larger, both Struct and Message do not grow as large as Protobuf or MessagePack.
 
 
 #### Types of Objects Serialized/Deserialized
@@ -73,28 +87,31 @@ AMD Ryzen 9 3950X, 1 CPU, 32 logical and 16 physical cores
 ### Serialized Objects
 
 Tiny Objects Serialized Size:
-| Name        | Size (bytes) |
-|-------------|--------------|
-| JSON        | 27           |
-| Protobuf    | 6            |
-| MessagePack | 7            |
-| Bebop       | 15           |
+| Name          | Size (bytes) |
+|---------------|--------------|
+| JSON          | 27           |
+| Protobuf      | 6            |
+| MessagePack   | 7            |
+| Bebop Message | 15           |
+| Bebop Struct  | 8            |
 
 Simple Objects Serialized Size:
-| Name        | Size (bytes) |
-|-------------|--------------|
-| JSON        | 83           |
-| Protobuf    | 42           |
-| MessagePack | 42           |
-| Bebop       | 57           |
+| Name          | Size (bytes) |
+|---------------|--------------|
+| JSON          | 83           |
+| Protobuf      | 42           |
+| MessagePack   | 42           |
+| Bebop Message | 57           |
+| Bebop Struct  | 48           |
 
 Complex Objects Serialized Size:
-| Name        | Size (bytes) |
-|-------------|--------------|
-| JSON        | 83           |
-| Protobuf    | 306          |
-| MessagePack | 279          |
-| Bebop       | 243          |
+| Name          | Size (bytes) |
+|---------------|--------------|
+| JSON          | 83           |
+| Protobuf      | 306          |
+| MessagePack   | 279          |
+| Bebop Message | 243          |
+| Bebop Struct  | 201          |
 
 ### Serialize POCOs Once
 
@@ -184,11 +201,12 @@ This is the most basic deserialization benchmark. It only measures the performan
 
 |         Method |        Mean |     Error |   StdDev | Allocated |
 |--------------- |------------:|----------:|---------:|----------:|
-| NewtonsoftJson | 2,300.75 ns | 10.700 ns | 8.935 ns |   2,832 B |
-| SystemTextJson |   692.76 ns |  9.477 ns | 8.865 ns |     128 B |
-|       Protobuf |   161.09 ns |  1.235 ns | 1.156 ns |     304 B |
-|    MessagePack |   171.56 ns |  1.516 ns | 1.418 ns |     128 B |
-|          Bebop |    60.19 ns |  0.265 ns | 0.221 ns |     136 B |
+| NewtonsoftJson | 2,178.36 ns | 10.585 ns | 9.901 ns |   2,832 B |
+| SystemTextJson |   717.57 ns |  9.333 ns | 8.730 ns |     128 B |
+|       Protobuf |   161.01 ns |  0.320 ns | 0.284 ns |     304 B |
+|    MessagePack |   158.03 ns |  2.187 ns | 2.046 ns |     128 B |
+|   BebopMessage |    52.00 ns |  0.622 ns | 0.582 ns |     136 B |
+|    BebopStruct |    44.70 ns |  0.308 ns | 0.288 ns |     128 B |
 
 #### Complex POCOs
 
@@ -206,33 +224,36 @@ This benchmark runs a loop to deserialize an object a total of 10 times. The pur
 
 #### Tiny POCOs
 
-|         Method |        Mean |     Error |   StdDev | Allocated |
-|--------------- |------------:|----------:|---------:|----------:|
-| NewtonsoftJson | 12,834.0 ns | 106.98 ns | 94.84 ns |  26,560 B |
-| SystemTextJson |  4,052.5 ns |  39.99 ns | 37.40 ns |     240 B |
-|       Protobuf |    972.4 ns |   5.11 ns |  4.78 ns |   2,000 B |
-|    MessagePack |    766.2 ns |   5.23 ns |  4.90 ns |     240 B |
-|          Bebop |    208.9 ns |   0.98 ns |  0.91 ns |     320 B |
+|         Method |        Mean |     Error |    StdDev | Allocated |
+|--------------- |------------:|----------:|----------:|----------:|
+| NewtonsoftJson | 13,193.5 ns | 114.12 ns | 106.74 ns |  26,560 B |
+| SystemTextJson |  4,190.2 ns |  31.48 ns |  29.44 ns |     240 B |
+|       Protobuf |    972.8 ns |  11.49 ns |  10.18 ns |   2,000 B |
+|    MessagePack |    665.9 ns |   4.53 ns |   4.23 ns |     240 B |
+|   BebopMessage |    212.8 ns |   0.66 ns |   0.58 ns |     320 B |
+|    BebopStruct |    140.5 ns |   1.34 ns |   1.19 ns |     240 B |
 
 #### Simple POCOs
 
 |         Method |        Mean |     Error |    StdDev | Allocated |
 |--------------- |------------:|----------:|----------:|----------:|
-| NewtonsoftJson | 22,988.9 ns | 265.97 ns | 248.78 ns |     28 KB |
-| SystemTextJson |  7,159.8 ns |  55.78 ns |  52.18 ns |      1 KB |
-|       Protobuf |  1,663.4 ns |  13.36 ns |  12.50 ns |      3 KB |
-|    MessagePack |  1,587.0 ns |  19.51 ns |  18.25 ns |      1 KB |
-|          Bebop |    619.4 ns |   3.60 ns |   3.37 ns |      1 KB |
+| NewtonsoftJson | 23,573.7 ns | 165.24 ns | 154.57 ns |     28 KB |
+| SystemTextJson |  7,282.4 ns |  77.27 ns |  72.28 ns |      1 KB |
+|       Protobuf |  1,692.2 ns |   8.19 ns |   6.84 ns |      3 KB |
+|    MessagePack |  1,688.1 ns |  13.23 ns |  11.73 ns |      1 KB |
+|   BebopMessage |    550.4 ns |   7.98 ns |   7.47 ns |      1 KB |
+|    BebopStruct |    499.4 ns |   1.23 ns |   1.09 ns |      1 KB |
 
 #### Complex POCOs
 
 |         Method |      Mean |     Error |    StdDev | Allocated |
 |--------------- |----------:|----------:|----------:|----------:|
-| NewtonsoftJson | 21.603 μs | 0.1334 μs | 0.1248 μs |     28 KB |
-| SystemTextJson |  7.205 μs | 0.0819 μs | 0.0766 μs |      2 KB |
-|       Protobuf | 10.802 μs | 0.0709 μs | 0.0629 μs |     13 KB |
-|    MessagePack | 17.979 μs | 0.1079 μs | 0.1010 μs |      5 KB |
-|          Bebop |  2.412 μs | 0.0114 μs | 0.0101 μs |      6 KB |
+| NewtonsoftJson | 23.995 μs | 0.1236 μs | 0.1156 μs |     28 KB |
+| SystemTextJson |  7.358 μs | 0.0568 μs | 0.0531 μs |      2 KB |
+|       Protobuf | 12.314 μs | 0.0165 μs | 0.0128 μs |     13 KB |
+|    MessagePack | 18.259 μs | 0.1002 μs | 0.0937 μs |      5 KB |
+|   BebopMessage |  2.680 μs | 0.0162 μs | 0.0135 μs |      6 KB |
+|    BebopStruct |  2.079 μs | 0.0106 μs | 0.0099 μs |      5 KB |
 
 ### Create then Serialize
 
@@ -240,33 +261,37 @@ This benchmark creates a new instance of an object and then serializes it. The p
 
 #### Tiny POCOs
 
-|         Method |      Mean |     Error |   StdDev | Allocated |
-|--------------- |----------:|----------:|---------:|----------:|
-| NewtonsoftJson | 752.72 ns | 10.555 ns | 9.873 ns |   1,440 B |
-| SystemTextJson | 330.58 ns |  4.845 ns | 4.532 ns |     256 B |
-|       Protobuf |  68.42 ns |  1.368 ns | 1.918 ns |     128 B |
-|    MessagePack |  83.37 ns |  0.651 ns | 0.577 ns |      56 B |
-|          Bebop |  49.11 ns |  0.265 ns | 0.235 ns |     152 B |
+|         Method |      Mean |     Error |    StdDev | Allocated |
+|--------------- |----------:|----------:|----------:|----------:|
+| NewtonsoftJson | 784.24 ns | 11.841 ns | 11.076 ns |   1,440 B |
+| SystemTextJson | 331.39 ns |  2.288 ns |  2.140 ns |     256 B |
+|       Protobuf |  64.91 ns |  0.655 ns |  0.613 ns |     128 B |
+|    MessagePack |  84.20 ns |  0.429 ns |  0.380 ns |      56 B |
+|   BebopMessage |  52.56 ns |  0.134 ns |  0.119 ns |     152 B |
+|    BebopStruct |  33.07 ns |  0.244 ns |  0.229 ns |      88 B |
 
 #### Simple POCOs
 
-|         Method |       Mean |   Error |  StdDev | Allocated |
-|--------------- |-----------:|--------:|--------:|----------:|
-| NewtonsoftJson | 1,054.1 ns | 6.99 ns | 6.53 ns |   1,592 B |
-| SystemTextJson |   500.1 ns | 4.61 ns | 4.31 ns |     384 B |
-|       Protobuf |   127.7 ns | 0.77 ns | 0.72 ns |     184 B |
-|    MessagePack |   147.2 ns | 2.62 ns | 2.45 ns |     112 B |
-|          Bebop |   123.5 ns | 0.65 ns | 0.61 ns |     408 B |
+|         Method |        Mean |    Error |   StdDev | Allocated |
+|--------------- |------------:|---------:|---------:|----------:|
+| NewtonsoftJson | 1,092.42 ns | 4.824 ns | 4.512 ns |   1,592 B |
+| SystemTextJson |   477.77 ns | 2.714 ns | 2.539 ns |     384 B |
+|       Protobuf |   122.48 ns | 0.966 ns | 0.903 ns |     184 B |
+|    MessagePack |   149.58 ns | 0.592 ns | 0.525 ns |     112 B |
+|   BebopMessage |   118.53 ns | 0.348 ns | 0.326 ns |     408 B |
+|    BebopStruct |    91.59 ns | 0.525 ns | 0.491 ns |     304 B |
 
 #### Complex POCOs
 
-|         Method |     Mean |     Error |    StdDev | Allocated |
-|--------------- |---------:|----------:|----------:|----------:|
-| NewtonsoftJson | 7.110 μs | 0.0218 μs | 0.0194 μs |   5,664 B |
-| SystemTextJson | 3.801 μs | 0.0081 μs | 0.0076 μs |   2,072 B |
-|       Protobuf | 2.187 μs | 0.0150 μs | 0.0125 μs |   1,309 B |
-|    MessagePack | 1.348 μs | 0.0034 μs | 0.0032 μs |     656 B |
-|          Bebop | 1.055 μs | 0.0060 μs | 0.0053 μs |   1,648 B |
+|         Method |       Mean |    Error |   StdDev | Allocated |
+|--------------- |-----------:|---------:|---------:|----------:|
+| NewtonsoftJson | 7,525.3 ns | 41.99 ns | 37.23 ns |   5,664 B |
+| SystemTextJson | 3,898.3 ns | 20.94 ns | 19.59 ns |   2,072 B |
+|       Protobuf | 2,260.7 ns |  8.78 ns |  7.78 ns |   1,308 B |
+|    MessagePack | 1,356.5 ns |  5.04 ns |  4.47 ns |     656 B |
+|   Bebopmessage | 1,131.7 ns |  7.64 ns |  7.15 ns |   1,648 B |
+|    BebopStruct |   951.5 ns |  6.91 ns |  6.46 ns |   1,328 B |
+
 
 ### Create then Serialize then Deserialize
 
@@ -274,32 +299,36 @@ This benchmark creates a new instance of an object, serializes it, then deserial
 
 #### Tiny POCOs
 
-|         Method |        Mean |     Error |    StdDev | Allocated |
-|--------------- |------------:|----------:|----------:|----------:|
-| NewtonsoftJson | 2,223.19 ns | 18.547 ns | 17.349 ns |   4,096 B |
-| SystemTextJson |   825.31 ns |  9.528 ns |  8.913 ns |     280 B |
-|       Protobuf |   170.23 ns |  2.781 ns |  2.601 ns |     328 B |
-|    MessagePack |   160.39 ns |  1.251 ns |  1.170 ns |      80 B |
-|          Bebop |    69.95 ns |  0.801 ns |  0.669 ns |     184 B |
+|         Method |        Mean |    Error |   StdDev | Allocated |
+|--------------- |------------:|---------:|---------:|----------:|
+| NewtonsoftJson | 2,322.73 ns | 7.618 ns | 6.753 ns |   4,096 B |
+| SystemTextJson |   841.82 ns | 7.382 ns | 6.905 ns |     280 B |
+|       Protobuf |   173.78 ns | 0.956 ns | 0.894 ns |     328 B |
+|    MessagePack |   170.39 ns | 1.407 ns | 1.316 ns |      80 B |
+|   BebopMessage |    72.26 ns | 0.264 ns | 0.234 ns |     184 B |
+|    BebopStruct |    43.09 ns | 0.103 ns | 0.096 ns |     112 B |
 
 #### Simple POCOs
 
 |         Method |       Mean |    Error |   StdDev | Allocated |
 |--------------- |-----------:|---------:|---------:|----------:|
-| NewtonsoftJson | 3,622.7 ns | 23.44 ns | 21.93 ns |   4,424 B |
-| SystemTextJson | 1,346.2 ns | 15.72 ns | 14.71 ns |     512 B |
-|       Protobuf |   309.0 ns |  3.96 ns |  3.70 ns |     488 B |
-|    MessagePack |   351.4 ns |  4.17 ns |  3.90 ns |     240 B |
-|          Bebop |   196.4 ns |  1.01 ns |  0.90 ns |     544 B |
+| NewtonsoftJson | 3,725.8 ns | 21.95 ns | 20.53 ns |   4,424 B |
+| SystemTextJson | 1,352.1 ns |  6.53 ns |  6.11 ns |     512 B |
+|       Protobuf |   321.5 ns |  1.74 ns |  1.55 ns |     488 B |
+|    MessagePack |   353.0 ns |  2.73 ns |  2.55 ns |     240 B |
+|   BebopMessage |   192.4 ns |  0.93 ns |  0.83 ns |     544 B |
+|    BebopStruct |   153.2 ns |  0.62 ns |  0.58 ns |     432 B |
 
 #### Complex POCOs
 
 |         Method |      Mean |     Error |    StdDev | Allocated |
 |--------------- |----------:|----------:|----------:|----------:|
-| NewtonsoftJson | 19.805 μs | 0.1083 μs | 0.1013 μs |     10 KB |
-| SystemTextJson |  8.831 μs | 0.0387 μs | 0.0362 μs |      3 KB |
-|       Protobuf |  3.452 μs | 0.0174 μs | 0.0163 μs |      3 KB |
-|    MessagePack |  3.410 μs | 0.0078 μs | 0.0073 μs |      1 KB |
-|          Bebop |  1.340 μs | 0.0050 μs | 0.0047 μs |      2 KB |
+| NewtonsoftJson | 20.844 μs | 0.0969 μs | 0.0906 μs |     10 KB |
+| SystemTextJson |  9.047 μs | 0.0591 μs | 0.0552 μs |      3 KB |
+|       Protobuf |  3.615 μs | 0.0102 μs | 0.0096 μs |      3 KB |
+|    MessagePack |  3.454 μs | 0.0157 μs | 0.0147 μs |      1 KB |
+|   BebopMessage |  1.454 μs | 0.0044 μs | 0.0039 μs |      2 KB |
+|    BebopStruct |  1.338 μs | 0.0049 μs | 0.0044 μs |      2 KB |
+
 
 

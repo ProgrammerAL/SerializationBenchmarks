@@ -48,9 +48,9 @@ namespace ProgrammerAl.Serialization.Entities
         public byte[] SerializedSimpleBebopStruct { get; } = BebobUtilities.GenerateSerializedSimpleStruct();
 
         //Serialized Complex POCOs
-        public string SerializedComplexJson { get; } = JsonUtilities.GenerateSerializedSimple();
-        public byte[] SerializedComplexMsgPack { get; } = MessagePackUtilities.GenerateSerializedSimple();
-        public byte[] SerializedComplexProtobuf { get; } = ProtobufUtilities.GenerateSerializedSimple();
+        public string SerializedComplexJson { get; } = JsonUtilities.GenerateSerializedComplex();
+        public byte[] SerializedComplexMsgPack { get; } = MessagePackUtilities.GenerateSerializedComplex();
+        public byte[] SerializedComplexProtobuf { get; } = ProtobufUtilities.GenerateSerializedComplex();
         public byte[] SerializedComplexBebopMessage { get; } = BebobUtilities.GenerateSerializedComplexMessage();
         public byte[] SerializedComplexBebopStruct { get; } = BebobUtilities.GenerateSerializedComplexStruct();
     }
